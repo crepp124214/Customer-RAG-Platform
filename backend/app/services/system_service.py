@@ -8,7 +8,6 @@ from sqlalchemy.engine import Engine
 
 from backend.app.settings import BackendSettings
 from backend.infrastructure.database import check_database_connection
-from backend.infrastructure.graph import create_graph_driver
 from backend.infrastructure.queue import check_redis_connection, create_redis_client
 
 
@@ -87,7 +86,6 @@ def build_readiness_report(*, settings: BackendSettings, db_engine: Engine) -> R
         _check_database_component(db_engine),
         _check_redis_component(settings),
         _check_storage_component(settings.file_storage_path),
-        _check_neo4j_component(settings),
     ]
     return build_readiness_summary(
         app_name=settings.app_name,
@@ -143,39 +141,3 @@ def _check_storage_component(storage_path: Path) -> ReadinessComponent:
             detail=str(exc),
         )
     return ReadinessComponent(name='storage', label='文件存储', status='ready', required=True)
-
-
-def _check_neo4j_component(settings: BackendSettings) -> ReadinessComponent:
-    if not settings.neo4j_uri:
-        return ReadinessComponent(
-            name='neo4j',
-            label='Neo4j',
-            status='skipped',
-            required=False,
-            detail='未配置 NEO4J_URI，GraphRAG 将按降级路径运行',
-        )
-
-    driver = create_graph_driver(settings)
-    if driver is None:
-        return ReadinessComponent(
-            name='neo4j',
-            label='Neo4j',
-            status='failed',
-            required=False,
-            detail='Neo4j 驱动不可用或连接未正确初始化',
-        )
-
-    try:
-        driver.verify_connectivity()
-    except Exception as exc:  # pragma: no cover
-        return ReadinessComponent(
-            name='neo4j',
-            label='Neo4j',
-            status='failed',
-            required=False,
-            detail=str(exc),
-        )
-    finally:
-        driver.close()
-
-    return ReadinessComponent(name='neo4j', label='Neo4j', status='ready', required=False)

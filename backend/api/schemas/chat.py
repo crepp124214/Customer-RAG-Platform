@@ -15,19 +15,9 @@ class SessionListItemData(BaseModel):
     updated_at: str
 
 
-class UpdateSessionRequest(BaseModel):
-    title: str | None = Field(default=None, min_length=1, max_length=200)
-
-
 class AutoTitleData(BaseModel):
     session_id: str
     title: str
-
-
-class ExportSessionData(BaseModel):
-    session_id: str
-    title: str
-    markdown: str
 
 
 class MessageListItemData(BaseModel):
@@ -55,8 +45,6 @@ class CitationData(BaseModel):
     source_type: str = "text"
     asset_label: str | None = None
     preview_available: bool = False
-    relation_label: str | None = None
-    entity_path: str | None = None
 
 
 class ToolCallData(BaseModel):

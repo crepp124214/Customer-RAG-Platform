@@ -1,0 +1,204 @@
+{
+  "files": [
+    {
+      "path": "backend/infrastructure/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/infrastructure/database/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/infrastructure/database/__init__.py",
+      "language": "python",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/database/connection.py",
+      "language": "python",
+      "sizeLines": 26,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/database/initializer.py",
+      "language": "python",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/database/session.py",
+      "language": "python",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/llm/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/infrastructure/llm/__init__.py",
+      "language": "python",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/llm/acceptance_clients.py",
+      "language": "python",
+      "sizeLines": 85,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/llm/chat_client.py",
+      "language": "python",
+      "sizeLines": 131,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/llm/embedding_client.py",
+      "language": "python",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/llm/factory.py",
+      "language": "python",
+      "sizeLines": 30,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/llm/reranker_client.py",
+      "language": "python",
+      "sizeLines": 35,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/observability/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/infrastructure/observability/__init__.py",
+      "language": "python",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/observability/logging.py",
+      "language": "python",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/observability/request_context.py",
+      "language": "python",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/queue/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/infrastructure/queue/__init__.py",
+      "language": "python",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/queue/connection.py",
+      "language": "python",
+      "sizeLines": 11,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/queue/queue.py",
+      "language": "python",
+      "sizeLines": 33,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/storage/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/infrastructure/storage/file_storage.py",
+      "language": "python",
+      "sizeLines": 65,
+      "fileCategory": "code"
+    }
+  ],
+  "importData": {
+    "backend/infrastructure/.gitkeep": [],
+    "backend/infrastructure/database/.gitkeep": [],
+    "backend/infrastructure/database/__init__.py": [
+      "backend/infrastructure/database/connection.py",
+      "backend/infrastructure/database/initializer.py",
+      "backend/infrastructure/database/session.py"
+    ],
+    "backend/infrastructure/database/connection.py": [],
+    "backend/infrastructure/database/initializer.py": [
+      "backend/app/models/__init__.py"
+    ],
+    "backend/infrastructure/database/session.py": [],
+    "backend/infrastructure/llm/.gitkeep": [],
+    "backend/infrastructure/llm/__init__.py": [
+      "backend/infrastructure/llm/acceptance_clients.py",
+      "backend/infrastructure/llm/chat_client.py",
+      "backend/infrastructure/llm/embedding_client.py",
+      "backend/infrastructure/llm/factory.py",
+      "backend/infrastructure/llm/reranker_client.py"
+    ],
+    "backend/infrastructure/llm/acceptance_clients.py": [
+      "backend/app/tools/base.py"
+    ],
+    "backend/infrastructure/llm/chat_client.py": [
+      "backend/app/exceptions.py",
+      "backend/app/tools/base.py"
+    ],
+    "backend/infrastructure/llm/embedding_client.py": [
+      "backend/app/exceptions.py"
+    ],
+    "backend/infrastructure/llm/factory.py": [
+      "backend/app/settings/__init__.py",
+      "backend/infrastructure/llm/acceptance_clients.py",
+      "backend/infrastructure/llm/chat_client.py",
+      "backend/infrastructure/llm/embedding_client.py",
+      "backend/infrastructure/llm/reranker_client.py"
+    ],
+    "backend/infrastructure/llm/reranker_client.py": [
+      "backend/app/exceptions.py"
+    ],
+    "backend/infrastructure/observability/.gitkeep": [],
+    "backend/infrastructure/observability/__init__.py": [
+      "backend/infrastructure/observability/logging.py",
+      "backend/infrastructure/observability/request_context.py"
+    ],
+    "backend/infrastructure/observability/logging.py": [
+      "backend/infrastructure/observability/request_context.py"
+    ],
+    "backend/infrastructure/observability/request_context.py": [],
+    "backend/infrastructure/queue/.gitkeep": [],
+    "backend/infrastructure/queue/__init__.py": [
+      "backend/infrastructure/queue/connection.py",
+      "backend/infrastructure/queue/queue.py"
+    ],
+    "backend/infrastructure/queue/connection.py": [],
+    "backend/infrastructure/queue/queue.py": [],
+    "backend/infrastructure/storage/.gitkeep": [],
+    "backend/infrastructure/storage/file_storage.py": [
+      "backend/app/exceptions.py"
+    ]
+  }
+}

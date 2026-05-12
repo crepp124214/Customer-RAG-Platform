@@ -45,7 +45,7 @@ def test_orchestrator_executes_allowed_tool_and_returns_context() -> None:
     execution_result = ToolExecutionResult(
         output={"results": [{"title": "news", "url": "https://example.com", "snippet": "latest"}]},
         record=ToolCallRecord(
-            tool_name="web_search",
+            tool_name="search",
             arguments={"query": "最新消息"},
             status="success",
             result_summary="命中 1 条搜索结果",
@@ -54,13 +54,13 @@ def test_orchestrator_executes_allowed_tool_and_returns_context() -> None:
     orchestrator = ToolOrchestrator(
         registry=_build_registry(execution_result),
         chat_client=FakeToolAwareChatClient(
-            decision=ToolCallDecision(tool_name="web_search", arguments={"query": "最新消息"})
+            decision=ToolCallDecision(tool_name="search", arguments={"query": "最新消息"})
         ),
     )
 
-    outcome = orchestrator.run(db_session=None, query="今天最新消息", allowed_tool_names=["web_search"])
+    outcome = orchestrator.run(db_session=None, query="今天最新消息", allowed_tool_names=["search"])
 
-    assert outcome.tool_calls[0].tool_name == "web_search"
+    assert outcome.tool_calls[0].tool_name == "search"
     assert outcome.tool_calls[0].status == "success"
     assert "latest" in (outcome.tool_context or "")
 
@@ -69,12 +69,12 @@ def test_orchestrator_rejects_tool_request_outside_allowed_set() -> None:
     orchestrator = ToolOrchestrator(
         registry=ToolRegistry(),
         chat_client=FakeToolAwareChatClient(
-            decision=ToolCallDecision(tool_name="web_search", arguments={"query": "最新消息"})
+            decision=ToolCallDecision(tool_name="search", arguments={"query": "最新消息"})
         ),
     )
 
     outcome = orchestrator.run(db_session=None, query="今天最新消息", allowed_tool_names=[])
 
-    assert outcome.tool_calls[0].tool_name == "web_search"
+    assert outcome.tool_calls[0].tool_name == "search"
     assert outcome.tool_calls[0].status == "failed"
     assert outcome.tool_calls[0].error_code == "TOOL_SECURITY_BLOCKED"

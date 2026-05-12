@@ -1,0 +1,1521 @@
+{
+  "scriptCompleted": true,
+  "name": "rag-document-assistant-frontend",
+  "rawDescription": "",
+  "readmeHead": "# RAG 智能文档检索助手\n\n基于 LLM 的企业级智能文档检索与知识问答平台，支持多模态文档解析、知识图谱构建和智能对话。\n\n## 项目概述\n\n本项目从 Streamlit 原型演进为前后端分离的产品级 RAG 系统，支持 PDF/DOCX/TXT 文档上传、语义切片、向量检索、多模态解析、GraphRAG 知识图谱构建、Tool Calling 工具调用和多知识库隔离管理。\n\n## 核心功能\n",
+  "languages": [
+    "batch",
+    "config",
+    "css",
+    "html",
+    "javascript",
+    "json",
+    "mako",
+    "markdown",
+    "powershell",
+    "python",
+    "txt",
+    "typescript",
+    "vue"
+  ],
+  "frameworks": [
+    "Alembic",
+    "DashScope",
+    "ESLint",
+    "Element Plus",
+    "FastAPI",
+    "LangChain",
+    "Pinia",
+    "Pydantic",
+    "RQ",
+    "SQLAlchemy",
+    "TypeScript",
+    "Uvicorn",
+    "Vite",
+    "Vitest",
+    "Vue 3"
+  ],
+  "files": [
+    {
+      "path": ".devcontainer/devcontainer.json",
+      "language": "json",
+      "sizeLines": 33,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".env.example",
+      "language": "config",
+      "sizeLines": 24,
+      "fileCategory": "config"
+    },
+    {
+      "path": "AGENTS.md",
+      "language": "markdown",
+      "sizeLines": 375,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "CLAUDE.md",
+      "language": "markdown",
+      "sizeLines": 231,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "README.md",
+      "language": "markdown",
+      "sizeLines": 198,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "alembic.ini",
+      "language": "config",
+      "sizeLines": 36,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/.env.example",
+      "language": "config",
+      "sizeLines": 37,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/api/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/api/deps/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/api/deps/database.py",
+      "language": "python",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/api/error_handlers.py",
+      "language": "python",
+      "sizeLines": 74,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/api/router.py",
+      "language": "python",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/api/routes/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/api/routes/__init__.py",
+      "language": "python",
+      "sizeLines": 3,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/api/routes/chat.py",
+      "language": "python",
+      "sizeLines": 253,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/api/routes/documents.py",
+      "language": "python",
+      "sizeLines": 130,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/api/routes/system.py",
+      "language": "python",
+      "sizeLines": 52,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/api/schemas/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/api/schemas/chat.py",
+      "language": "python",
+      "sizeLines": 91,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/api/schemas/documents.py",
+      "language": "python",
+      "sizeLines": 39,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/api/schemas/response.py",
+      "language": "python",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/app/exceptions.py",
+      "language": "python",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/models/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/app/models/__init__.py",
+      "language": "python",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/models/base.py",
+      "language": "python",
+      "sizeLines": 42,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/models/chunk.py",
+      "language": "python",
+      "sizeLines": 30,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/models/document.py",
+      "language": "python",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/models/message.py",
+      "language": "python",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/models/session.py",
+      "language": "python",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/models/task.py",
+      "language": "python",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/orchestrators/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/app/orchestrators/document_ingestion.py",
+      "language": "python",
+      "sizeLines": 177,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/repositories/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/app/repositories/chunk_repository.py",
+      "language": "python",
+      "sizeLines": 50,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/repositories/document_repository.py",
+      "language": "python",
+      "sizeLines": 70,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/repositories/message_repository.py",
+      "language": "python",
+      "sizeLines": 24,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/repositories/session_repository.py",
+      "language": "python",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/repositories/task_repository.py",
+      "language": "python",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/services/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/app/services/chat_service.py",
+      "language": "python",
+      "sizeLines": 321,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/services/chunking_service.py",
+      "language": "python",
+      "sizeLines": 69,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/services/document_service.py",
+      "language": "python",
+      "sizeLines": 134,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/services/parser_service.py",
+      "language": "python",
+      "sizeLines": 52,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/services/retrieval_service.py",
+      "language": "python",
+      "sizeLines": 91,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/services/system_service.py",
+      "language": "python",
+      "sizeLines": 143,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/settings/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/app/settings/__init__.py",
+      "language": "python",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/settings/config.py",
+      "language": "python",
+      "sizeLines": 183,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/tasks/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/app/tasks/__init__.py",
+      "language": "python",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/tasks/document_tasks.py",
+      "language": "python",
+      "sizeLines": 51,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/tasks/system_tasks.py",
+      "language": "python",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/tools/__init__.py",
+      "language": "python",
+      "sizeLines": 30,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/tools/base.py",
+      "language": "python",
+      "sizeLines": 64,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/tools/gating.py",
+      "language": "python",
+      "sizeLines": 5,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/tools/orchestrator.py",
+      "language": "python",
+      "sizeLines": 122,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/tools/registry.py",
+      "language": "python",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/infrastructure/database/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/infrastructure/database/__init__.py",
+      "language": "python",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/database/connection.py",
+      "language": "python",
+      "sizeLines": 26,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/database/initializer.py",
+      "language": "python",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/database/migrations/env.py",
+      "language": "python",
+      "sizeLines": 58,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/database/migrations/script.py.mako",
+      "language": "mako",
+      "sizeLines": 26,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/infrastructure/database/migrations/versions/20260403_000001_create_phase_one_tables.py",
+      "language": "python",
+      "sizeLines": 91,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/database/migrations/versions/20260403_000002_add_chunk_embedding.py",
+      "language": "python",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/database/migrations/versions/20260406_000002_add_message_artifacts.py",
+      "language": "python",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/database/migrations/versions/20260406_000003_add_multimodal_chunk_fields.py",
+      "language": "python",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/database/migrations/versions/20260406_000004_add_document_graph_summary.py",
+      "language": "python",
+      "sizeLines": 27,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/database/migrations/versions/20260413_000005_add_document_tags_and_session_enhancements.py",
+      "language": "python",
+      "sizeLines": 103,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/database/session.py",
+      "language": "python",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/llm/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/infrastructure/llm/__init__.py",
+      "language": "python",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/llm/acceptance_clients.py",
+      "language": "python",
+      "sizeLines": 85,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/llm/chat_client.py",
+      "language": "python",
+      "sizeLines": 131,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/llm/embedding_client.py",
+      "language": "python",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/llm/factory.py",
+      "language": "python",
+      "sizeLines": 30,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/llm/reranker_client.py",
+      "language": "python",
+      "sizeLines": 35,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/observability/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/infrastructure/observability/__init__.py",
+      "language": "python",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/observability/logging.py",
+      "language": "python",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/observability/request_context.py",
+      "language": "python",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/queue/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/infrastructure/queue/__init__.py",
+      "language": "python",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/queue/connection.py",
+      "language": "python",
+      "sizeLines": 11,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/queue/queue.py",
+      "language": "python",
+      "sizeLines": 33,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/storage/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/infrastructure/storage/file_storage.py",
+      "language": "python",
+      "sizeLines": 65,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/vector/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/infrastructure/vector/__init__.py",
+      "language": "python",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/vector/store.py",
+      "language": "python",
+      "sizeLines": 144,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/vector/types.py",
+      "language": "python",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/main.py",
+      "language": "python",
+      "sizeLines": 115,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/tests/support.py",
+      "language": "python",
+      "sizeLines": 47,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_acceptance_mode.py",
+      "language": "python",
+      "sizeLines": 64,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_app.py",
+      "language": "python",
+      "sizeLines": 183,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_chat_api.py",
+      "language": "python",
+      "sizeLines": 470,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_chat_client.py",
+      "language": "python",
+      "sizeLines": 95,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_chat_service.py",
+      "language": "python",
+      "sizeLines": 488,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_chunking_service.py",
+      "language": "python",
+      "sizeLines": 58,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_config.py",
+      "language": "python",
+      "sizeLines": 82,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_database.py",
+      "language": "python",
+      "sizeLines": 124,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_document_ingestion.py",
+      "language": "python",
+      "sizeLines": 111,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_documents_api.py",
+      "language": "python",
+      "sizeLines": 306,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_embedding_client.py",
+      "language": "python",
+      "sizeLines": 55,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_file_storage.py",
+      "language": "python",
+      "sizeLines": 50,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_llm_factory.py",
+      "language": "python",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_observability.py",
+      "language": "python",
+      "sizeLines": 142,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_parser_service.py",
+      "language": "python",
+      "sizeLines": 115,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_queue.py",
+      "language": "python",
+      "sizeLines": 108,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_reranker_client.py",
+      "language": "python",
+      "sizeLines": 65,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_retrieval_service.py",
+      "language": "python",
+      "sizeLines": 203,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_system_service.py",
+      "language": "python",
+      "sizeLines": 70,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_tool_orchestrator.py",
+      "language": "python",
+      "sizeLines": 80,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_tool_registry.py",
+      "language": "python",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_vector.py",
+      "language": "python",
+      "sizeLines": 85,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_vector_postgresql.py",
+      "language": "python",
+      "sizeLines": 26,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_worker_bootstrap.py",
+      "language": "python",
+      "sizeLines": 206,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/.env.example",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "frontend/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "frontend/eslint.config.mjs",
+      "language": "javascript",
+      "sizeLines": 62,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/index.html",
+      "language": "html",
+      "sizeLines": 18,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "frontend/package.json",
+      "language": "json",
+      "sizeLines": 33,
+      "fileCategory": "config"
+    },
+    {
+      "path": "frontend/src/App.vue",
+      "language": "vue",
+      "sizeLines": 347,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/assets/styles/global.css",
+      "language": "css",
+      "sizeLines": 128,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "frontend/src/components/chat/ChatWorkspacePanel.vue",
+      "language": "vue",
+      "sizeLines": 638,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/config/env.ts",
+      "language": "typescript",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/main.ts",
+      "language": "typescript",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/services/chat.ts",
+      "language": "typescript",
+      "sizeLines": 277,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/services/documents.ts",
+      "language": "typescript",
+      "sizeLines": 95,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/services/http.ts",
+      "language": "typescript",
+      "sizeLines": 70,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/services/system.ts",
+      "language": "typescript",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/stores/chat.ts",
+      "language": "typescript",
+      "sizeLines": 301,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/stores/system.ts",
+      "language": "typescript",
+      "sizeLines": 55,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/tests/api.spec.ts",
+      "language": "typescript",
+      "sizeLines": 128,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/tests/chat-service.spec.ts",
+      "language": "typescript",
+      "sizeLines": 49,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/tests/chat-store.spec.ts",
+      "language": "typescript",
+      "sizeLines": 248,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/tests/chat-workspace.spec.ts",
+      "language": "typescript",
+      "sizeLines": 231,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/tests/setup.ts",
+      "language": "typescript",
+      "sizeLines": 5,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/types/chat.ts",
+      "language": "typescript",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/types/document.ts",
+      "language": "typescript",
+      "sizeLines": 34,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/types/index.ts",
+      "language": "typescript",
+      "sizeLines": 5,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/vite-env.d.ts",
+      "language": "typescript",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/tsconfig.json",
+      "language": "json",
+      "sizeLines": 22,
+      "fileCategory": "config"
+    },
+    {
+      "path": "frontend/vite.config.ts",
+      "language": "typescript",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "requirements.txt",
+      "language": "txt",
+      "sizeLines": 20,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "run.py",
+      "language": "python",
+      "sizeLines": 85,
+      "fileCategory": "code"
+    },
+    {
+      "path": "scripts/build_all.bat",
+      "language": "batch",
+      "sizeLines": 6,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/build_frontend.bat",
+      "language": "batch",
+      "sizeLines": 8,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/check_all.bat",
+      "language": "batch",
+      "sizeLines": 15,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/check_frontend.bat",
+      "language": "batch",
+      "sizeLines": 8,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/coverage_backend.bat",
+      "language": "batch",
+      "sizeLines": 7,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/dev.ps1",
+      "language": "powershell",
+      "sizeLines": 603,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/lint_frontend.bat",
+      "language": "batch",
+      "sizeLines": 8,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/start_all_dev.bat",
+      "language": "batch",
+      "sizeLines": 14,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/start_backend_dev.bat",
+      "language": "batch",
+      "sizeLines": 7,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/start_frontend_dev.bat",
+      "language": "batch",
+      "sizeLines": 8,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/start_worker_dev.bat",
+      "language": "batch",
+      "sizeLines": 7,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/test_all.bat",
+      "language": "batch",
+      "sizeLines": 9,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/test_backend.bat",
+      "language": "batch",
+      "sizeLines": 7,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/test_frontend.bat",
+      "language": "batch",
+      "sizeLines": 8,
+      "fileCategory": "script"
+    },
+    {
+      "path": "start.bat",
+      "language": "batch",
+      "sizeLines": 26,
+      "fileCategory": "script"
+    },
+    {
+      "path": "worker/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "worker/__init__.py",
+      "language": "python",
+      "sizeLines": 3,
+      "fileCategory": "code"
+    },
+    {
+      "path": "worker/main.py",
+      "language": "python",
+      "sizeLines": 170,
+      "fileCategory": "code"
+    }
+  ],
+  "totalFiles": 168,
+  "filteredByIgnore": 0,
+  "estimatedComplexity": "large",
+  "importMap": {
+    ".devcontainer/devcontainer.json": [],
+    ".env.example": [],
+    "AGENTS.md": [],
+    "CLAUDE.md": [],
+    "README.md": [],
+    "alembic.ini": [],
+    "backend/.env.example": [],
+    "backend/.gitkeep": [],
+    "backend/api/.gitkeep": [],
+    "backend/api/deps/.gitkeep": [],
+    "backend/api/deps/database.py": [
+      "backend/app/exceptions.py"
+    ],
+    "backend/api/error_handlers.py": [
+      "backend/api/schemas/response.py",
+      "backend/app/exceptions.py"
+    ],
+    "backend/api/router.py": [
+      "backend/api/routes/__init__.py"
+    ],
+    "backend/api/routes/.gitkeep": [],
+    "backend/api/routes/__init__.py": [],
+    "backend/api/routes/chat.py": [
+      "backend/api/deps/database.py",
+      "backend/api/schemas/chat.py",
+      "backend/api/schemas/response.py",
+      "backend/app/services/chat_service.py",
+      "backend/app/services/retrieval_service.py",
+      "backend/infrastructure/llm/__init__.py"
+    ],
+    "backend/api/routes/documents.py": [
+      "backend/api/deps/database.py",
+      "backend/api/schemas/documents.py",
+      "backend/api/schemas/response.py",
+      "backend/app/repositories/document_repository.py",
+      "backend/app/services/document_service.py"
+    ],
+    "backend/api/routes/system.py": [
+      "backend/api/schemas/response.py",
+      "backend/app/services/system_service.py",
+      "backend/infrastructure/observability/__init__.py"
+    ],
+    "backend/api/schemas/.gitkeep": [],
+    "backend/api/schemas/chat.py": [],
+    "backend/api/schemas/documents.py": [],
+    "backend/api/schemas/response.py": [],
+    "backend/app/.gitkeep": [],
+    "backend/app/exceptions.py": [],
+    "backend/app/models/.gitkeep": [],
+    "backend/app/models/__init__.py": [
+      "backend/app/models/base.py",
+      "backend/app/models/chunk.py",
+      "backend/app/models/document.py",
+      "backend/app/models/message.py",
+      "backend/app/models/session.py",
+      "backend/app/models/task.py"
+    ],
+    "backend/app/models/base.py": [],
+    "backend/app/models/chunk.py": [
+      "backend/app/models/base.py",
+      "backend/infrastructure/vector/types.py"
+    ],
+    "backend/app/models/document.py": [
+      "backend/app/models/base.py"
+    ],
+    "backend/app/models/message.py": [
+      "backend/app/models/base.py"
+    ],
+    "backend/app/models/session.py": [
+      "backend/app/models/base.py"
+    ],
+    "backend/app/models/task.py": [
+      "backend/app/models/base.py"
+    ],
+    "backend/app/orchestrators/.gitkeep": [],
+    "backend/app/orchestrators/document_ingestion.py": [
+      "backend/app/exceptions.py",
+      "backend/app/models/__init__.py",
+      "backend/app/services/chunking_service.py",
+      "backend/app/services/parser_service.py",
+      "backend/infrastructure/observability/__init__.py",
+      "backend/infrastructure/vector/store.py"
+    ],
+    "backend/app/repositories/.gitkeep": [],
+    "backend/app/repositories/chunk_repository.py": [
+      "backend/app/models/__init__.py"
+    ],
+    "backend/app/repositories/document_repository.py": [
+      "backend/app/models/__init__.py"
+    ],
+    "backend/app/repositories/message_repository.py": [
+      "backend/app/models/__init__.py"
+    ],
+    "backend/app/repositories/session_repository.py": [
+      "backend/app/models/__init__.py"
+    ],
+    "backend/app/repositories/task_repository.py": [
+      "backend/app/models/__init__.py"
+    ],
+    "backend/app/services/.gitkeep": [],
+    "backend/app/services/chat_service.py": [
+      "backend/app/exceptions.py",
+      "backend/app/models/__init__.py",
+      "backend/app/repositories/message_repository.py",
+      "backend/app/repositories/session_repository.py",
+      "backend/infrastructure/observability/__init__.py"
+    ],
+    "backend/app/services/chunking_service.py": [],
+    "backend/app/services/document_service.py": [
+      "backend/app/exceptions.py",
+      "backend/app/models/__init__.py",
+      "backend/app/repositories/document_repository.py",
+      "backend/app/repositories/task_repository.py",
+      "backend/app/settings/__init__.py",
+      "backend/app/tasks/document_tasks.py",
+      "backend/infrastructure/observability/__init__.py",
+      "backend/infrastructure/queue/__init__.py",
+      "backend/infrastructure/storage/file_storage.py"
+    ],
+    "backend/app/services/parser_service.py": [
+      "backend/app/exceptions.py"
+    ],
+    "backend/app/services/retrieval_service.py": [
+      "backend/app/models/__init__.py",
+      "backend/infrastructure/vector/store.py"
+    ],
+    "backend/app/services/system_service.py": [
+      "backend/app/settings/__init__.py",
+      "backend/infrastructure/database/__init__.py",
+      "backend/infrastructure/queue/__init__.py"
+    ],
+    "backend/app/settings/.gitkeep": [],
+    "backend/app/settings/__init__.py": [],
+    "backend/app/settings/config.py": [],
+    "backend/app/tasks/.gitkeep": [],
+    "backend/app/tasks/__init__.py": [],
+    "backend/app/tasks/document_tasks.py": [
+      "backend/app/orchestrators/document_ingestion.py",
+      "backend/app/services/chunking_service.py",
+      "backend/app/services/parser_service.py",
+      "backend/app/settings/__init__.py",
+      "backend/infrastructure/database/__init__.py",
+      "backend/infrastructure/llm/__init__.py",
+      "backend/infrastructure/observability/__init__.py"
+    ],
+    "backend/app/tasks/system_tasks.py": [],
+    "backend/app/tools/__init__.py": [
+      "backend/app/tools/base.py",
+      "backend/app/tools/gating.py",
+      "backend/app/tools/orchestrator.py",
+      "backend/app/tools/registry.py"
+    ],
+    "backend/app/tools/base.py": [],
+    "backend/app/tools/gating.py": [],
+    "backend/app/tools/orchestrator.py": [
+      "backend/app/exceptions.py",
+      "backend/app/tools/base.py",
+      "backend/app/tools/registry.py",
+      "backend/infrastructure/observability/__init__.py"
+    ],
+    "backend/app/tools/registry.py": [
+      "backend/app/exceptions.py",
+      "backend/app/tools/__init__.py",
+      "backend/app/tools/base.py"
+    ],
+    "backend/infrastructure/.gitkeep": [],
+    "backend/infrastructure/database/.gitkeep": [],
+    "backend/infrastructure/database/__init__.py": [
+      "backend/infrastructure/database/connection.py",
+      "backend/infrastructure/database/initializer.py",
+      "backend/infrastructure/database/session.py"
+    ],
+    "backend/infrastructure/database/connection.py": [],
+    "backend/infrastructure/database/initializer.py": [
+      "backend/app/models/__init__.py"
+    ],
+    "backend/infrastructure/database/migrations/env.py": [
+      "backend/app/models/__init__.py",
+      "backend/app/settings/__init__.py"
+    ],
+    "backend/infrastructure/database/migrations/script.py.mako": [],
+    "backend/infrastructure/database/migrations/versions/20260403_000001_create_phase_one_tables.py": [],
+    "backend/infrastructure/database/migrations/versions/20260403_000002_add_chunk_embedding.py": [],
+    "backend/infrastructure/database/migrations/versions/20260406_000002_add_message_artifacts.py": [],
+    "backend/infrastructure/database/migrations/versions/20260406_000003_add_multimodal_chunk_fields.py": [],
+    "backend/infrastructure/database/migrations/versions/20260406_000004_add_document_graph_summary.py": [],
+    "backend/infrastructure/database/migrations/versions/20260413_000005_add_document_tags_and_session_enhancements.py": [],
+    "backend/infrastructure/database/session.py": [],
+    "backend/infrastructure/llm/.gitkeep": [],
+    "backend/infrastructure/llm/__init__.py": [
+      "backend/infrastructure/llm/acceptance_clients.py",
+      "backend/infrastructure/llm/chat_client.py",
+      "backend/infrastructure/llm/embedding_client.py",
+      "backend/infrastructure/llm/factory.py",
+      "backend/infrastructure/llm/reranker_client.py"
+    ],
+    "backend/infrastructure/llm/acceptance_clients.py": [
+      "backend/app/tools/base.py"
+    ],
+    "backend/infrastructure/llm/chat_client.py": [
+      "backend/app/exceptions.py",
+      "backend/app/tools/base.py"
+    ],
+    "backend/infrastructure/llm/embedding_client.py": [
+      "backend/app/exceptions.py"
+    ],
+    "backend/infrastructure/llm/factory.py": [
+      "backend/app/settings/__init__.py",
+      "backend/infrastructure/llm/acceptance_clients.py",
+      "backend/infrastructure/llm/chat_client.py",
+      "backend/infrastructure/llm/embedding_client.py",
+      "backend/infrastructure/llm/reranker_client.py"
+    ],
+    "backend/infrastructure/llm/reranker_client.py": [
+      "backend/app/exceptions.py"
+    ],
+    "backend/infrastructure/observability/.gitkeep": [],
+    "backend/infrastructure/observability/__init__.py": [
+      "backend/infrastructure/observability/logging.py",
+      "backend/infrastructure/observability/request_context.py"
+    ],
+    "backend/infrastructure/observability/logging.py": [
+      "backend/infrastructure/observability/request_context.py"
+    ],
+    "backend/infrastructure/observability/request_context.py": [],
+    "backend/infrastructure/queue/.gitkeep": [],
+    "backend/infrastructure/queue/__init__.py": [
+      "backend/infrastructure/queue/connection.py",
+      "backend/infrastructure/queue/queue.py"
+    ],
+    "backend/infrastructure/queue/connection.py": [],
+    "backend/infrastructure/queue/queue.py": [],
+    "backend/infrastructure/storage/.gitkeep": [],
+    "backend/infrastructure/storage/file_storage.py": [
+      "backend/app/exceptions.py"
+    ],
+    "backend/infrastructure/vector/.gitkeep": [],
+    "backend/infrastructure/vector/__init__.py": [
+      "backend/infrastructure/vector/types.py"
+    ],
+    "backend/infrastructure/vector/store.py": [
+      "backend/app/models/__init__.py",
+      "backend/infrastructure/vector/types.py"
+    ],
+    "backend/infrastructure/vector/types.py": [],
+    "backend/main.py": [
+      "backend/api/error_handlers.py",
+      "backend/api/router.py",
+      "backend/app/settings/__init__.py",
+      "backend/infrastructure/database/__init__.py",
+      "backend/infrastructure/observability/__init__.py"
+    ],
+    "backend/tests/.gitkeep": [],
+    "backend/tests/support.py": [
+      "backend/app/settings/config.py",
+      "backend/infrastructure/database/initializer.py",
+      "backend/main.py"
+    ],
+    "backend/tests/test_acceptance_mode.py": [
+      "backend/app/models/__init__.py",
+      "backend/app/orchestrators/document_ingestion.py",
+      "backend/app/services/chunking_service.py",
+      "backend/app/services/parser_service.py",
+      "backend/infrastructure/database/__init__.py",
+      "backend/infrastructure/llm/__init__.py",
+      "backend/tests/support.py"
+    ],
+    "backend/tests/test_app.py": [
+      "backend/app/exceptions.py",
+      "backend/app/services/system_service.py",
+      "backend/tests/support.py"
+    ],
+    "backend/tests/test_chat_api.py": [
+      "backend/api/routes/__init__.py",
+      "backend/app/services/retrieval_service.py",
+      "backend/tests/support.py"
+    ],
+    "backend/tests/test_chat_client.py": [
+      "backend/app/exceptions.py",
+      "backend/infrastructure/llm/chat_client.py"
+    ],
+    "backend/tests/test_chat_service.py": [
+      "backend/app/exceptions.py",
+      "backend/app/models/__init__.py",
+      "backend/app/services/chat_service.py",
+      "backend/app/services/retrieval_service.py",
+      "backend/infrastructure/database/__init__.py",
+      "backend/tests/support.py"
+    ],
+    "backend/tests/test_chunking_service.py": [
+      "backend/app/services/chunking_service.py"
+    ],
+    "backend/tests/test_config.py": [
+      "backend/app/settings/config.py"
+    ],
+    "backend/tests/test_database.py": [
+      "backend/app/models/__init__.py",
+      "backend/infrastructure/database/connection.py",
+      "backend/infrastructure/database/initializer.py",
+      "backend/infrastructure/database/session.py"
+    ],
+    "backend/tests/test_document_ingestion.py": [
+      "backend/app/models/__init__.py",
+      "backend/app/orchestrators/document_ingestion.py",
+      "backend/app/services/chunking_service.py",
+      "backend/app/services/parser_service.py",
+      "backend/infrastructure/database/__init__.py",
+      "backend/tests/support.py"
+    ],
+    "backend/tests/test_documents_api.py": [
+      "backend/app/models/__init__.py",
+      "backend/app/tasks/document_tasks.py",
+      "backend/infrastructure/storage/file_storage.py",
+      "backend/tests/support.py"
+    ],
+    "backend/tests/test_embedding_client.py": [
+      "backend/app/exceptions.py",
+      "backend/infrastructure/llm/embedding_client.py"
+    ],
+    "backend/tests/test_file_storage.py": [
+      "backend/app/exceptions.py",
+      "backend/infrastructure/storage/file_storage.py",
+      "backend/tests/support.py"
+    ],
+    "backend/tests/test_llm_factory.py": [
+      "backend/app/settings/config.py",
+      "backend/infrastructure/llm/__init__.py"
+    ],
+    "backend/tests/test_observability.py": [
+      "backend/app/models/__init__.py",
+      "backend/app/services/chat_service.py",
+      "backend/app/services/system_service.py",
+      "backend/infrastructure/observability/__init__.py",
+      "backend/tests/support.py"
+    ],
+    "backend/tests/test_parser_service.py": [
+      "backend/app/exceptions.py",
+      "backend/app/services/parser_service.py",
+      "backend/tests/support.py"
+    ],
+    "backend/tests/test_queue.py": [
+      "backend/app/tasks/system_tasks.py",
+      "backend/infrastructure/queue/connection.py",
+      "backend/infrastructure/queue/queue.py"
+    ],
+    "backend/tests/test_reranker_client.py": [
+      "backend/app/exceptions.py",
+      "backend/infrastructure/llm/reranker_client.py"
+    ],
+    "backend/tests/test_retrieval_service.py": [
+      "backend/app/models/__init__.py",
+      "backend/app/services/retrieval_service.py",
+      "backend/infrastructure/database/__init__.py",
+      "backend/infrastructure/vector/store.py",
+      "backend/tests/support.py"
+    ],
+    "backend/tests/test_system_service.py": [
+      "backend/app/services/system_service.py"
+    ],
+    "backend/tests/test_tool_orchestrator.py": [
+      "backend/app/services/retrieval_service.py",
+      "backend/app/tools/base.py",
+      "backend/app/tools/orchestrator.py",
+      "backend/app/tools/registry.py"
+    ],
+    "backend/tests/test_tool_registry.py": [
+      "backend/app/exceptions.py",
+      "backend/app/tools/base.py",
+      "backend/app/tools/registry.py"
+    ],
+    "backend/tests/test_vector.py": [
+      "backend/app/models/__init__.py",
+      "backend/infrastructure/database/connection.py",
+      "backend/infrastructure/database/initializer.py",
+      "backend/infrastructure/database/session.py",
+      "backend/infrastructure/vector/store.py"
+    ],
+    "backend/tests/test_vector_postgresql.py": [
+      "backend/infrastructure/vector/store.py"
+    ],
+    "backend/tests/test_worker_bootstrap.py": [
+      "backend/infrastructure/queue/queue.py"
+    ],
+    "frontend/.env.example": [],
+    "frontend/.gitkeep": [],
+    "frontend/eslint.config.mjs": [],
+    "frontend/index.html": [],
+    "frontend/package.json": [],
+    "frontend/src/App.vue": [
+      "frontend/src/components/chat/ChatWorkspacePanel.vue",
+      "frontend/src/stores/system.ts"
+    ],
+    "frontend/src/assets/styles/global.css": [],
+    "frontend/src/components/chat/ChatWorkspacePanel.vue": [
+      "frontend/src/stores/chat.ts"
+    ],
+    "frontend/src/config/env.ts": [],
+    "frontend/src/main.ts": [
+      "frontend/src/App.vue",
+      "frontend/src/assets/styles/global.css"
+    ],
+    "frontend/src/services/chat.ts": [
+      "frontend/src/services/http.ts"
+    ],
+    "frontend/src/services/documents.ts": [
+      "frontend/src/services/http.ts"
+    ],
+    "frontend/src/services/http.ts": [
+      "frontend/src/config/env.ts"
+    ],
+    "frontend/src/services/system.ts": [
+      "frontend/src/services/http.ts"
+    ],
+    "frontend/src/stores/chat.ts": [
+      "frontend/src/services/chat.ts"
+    ],
+    "frontend/src/stores/system.ts": [
+      "frontend/src/services/system.ts"
+    ],
+    "frontend/src/tests/api.spec.ts": [
+      "frontend/src/services/documents.ts",
+      "frontend/src/services/http.ts",
+      "frontend/src/services/system.ts"
+    ],
+    "frontend/src/tests/chat-service.spec.ts": [
+      "frontend/src/services/chat.ts"
+    ],
+    "frontend/src/tests/chat-store.spec.ts": [
+      "frontend/src/services/chat.ts",
+      "frontend/src/stores/chat.ts"
+    ],
+    "frontend/src/tests/chat-workspace.spec.ts": [
+      "frontend/src/components/chat/ChatWorkspacePanel.vue",
+      "frontend/src/stores/chat.ts"
+    ],
+    "frontend/src/tests/setup.ts": [],
+    "frontend/src/types/chat.ts": [],
+    "frontend/src/types/document.ts": [],
+    "frontend/src/types/index.ts": [],
+    "frontend/src/vite-env.d.ts": [],
+    "frontend/tsconfig.json": [],
+    "frontend/vite.config.ts": [],
+    "requirements.txt": [],
+    "run.py": [],
+    "scripts/build_all.bat": [],
+    "scripts/build_frontend.bat": [],
+    "scripts/check_all.bat": [],
+    "scripts/check_frontend.bat": [],
+    "scripts/coverage_backend.bat": [],
+    "scripts/dev.ps1": [],
+    "scripts/lint_frontend.bat": [],
+    "scripts/start_all_dev.bat": [],
+    "scripts/start_backend_dev.bat": [],
+    "scripts/start_frontend_dev.bat": [],
+    "scripts/start_worker_dev.bat": [],
+    "scripts/test_all.bat": [],
+    "scripts/test_backend.bat": [],
+    "scripts/test_frontend.bat": [],
+    "start.bat": [],
+    "worker/.gitkeep": [],
+    "worker/__init__.py": [
+      "worker/main.py"
+    ],
+    "worker/main.py": [
+      "backend/app/settings/__init__.py",
+      "backend/infrastructure/observability/__init__.py",
+      "backend/infrastructure/queue/__init__.py"
+    ]
+  }
+}

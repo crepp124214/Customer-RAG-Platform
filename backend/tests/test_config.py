@@ -1,4 +1,4 @@
-﻿import pytest
+import pytest
 
 from backend.app.settings.config import PROJECT_ROOT, SettingsError, load_backend_settings
 
@@ -19,10 +19,6 @@ def test_load_backend_settings_reads_complete_values_from_env_file() -> None:
     assert settings.vector_top_k == 12
     assert settings.rerank_top_n == 5
     assert settings.reranker_model == 'gte-rerank-v2'
-    assert settings.qwen_vl_model == 'qwen-vl-max-latest'
-    assert settings.multimodal_enabled is True
-    assert settings.neo4j_uri is None
-    assert settings.graph_query_limit == 5
     assert settings.file_storage_path == (PROJECT_ROOT / 'data' / 'uploads').resolve()
 
 

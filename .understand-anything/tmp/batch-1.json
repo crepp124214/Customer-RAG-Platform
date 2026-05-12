@@ -1,0 +1,181 @@
+{
+  "files": [
+    {
+      "path": ".devcontainer/devcontainer.json",
+      "language": "json",
+      "sizeLines": 33,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".env.example",
+      "language": "config",
+      "sizeLines": 24,
+      "fileCategory": "config"
+    },
+    {
+      "path": "AGENTS.md",
+      "language": "markdown",
+      "sizeLines": 375,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "CLAUDE.md",
+      "language": "markdown",
+      "sizeLines": 231,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "README.md",
+      "language": "markdown",
+      "sizeLines": 198,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "alembic.ini",
+      "language": "config",
+      "sizeLines": 36,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/.env.example",
+      "language": "config",
+      "sizeLines": 37,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "requirements.txt",
+      "language": "txt",
+      "sizeLines": 20,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "run.py",
+      "language": "python",
+      "sizeLines": 85,
+      "fileCategory": "code"
+    },
+    {
+      "path": "scripts/build_all.bat",
+      "language": "batch",
+      "sizeLines": 6,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/build_frontend.bat",
+      "language": "batch",
+      "sizeLines": 8,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/check_all.bat",
+      "language": "batch",
+      "sizeLines": 15,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/check_frontend.bat",
+      "language": "batch",
+      "sizeLines": 8,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/coverage_backend.bat",
+      "language": "batch",
+      "sizeLines": 7,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/dev.ps1",
+      "language": "powershell",
+      "sizeLines": 603,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/lint_frontend.bat",
+      "language": "batch",
+      "sizeLines": 8,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/start_all_dev.bat",
+      "language": "batch",
+      "sizeLines": 14,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/start_backend_dev.bat",
+      "language": "batch",
+      "sizeLines": 7,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/start_frontend_dev.bat",
+      "language": "batch",
+      "sizeLines": 8,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/start_worker_dev.bat",
+      "language": "batch",
+      "sizeLines": 7,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/test_all.bat",
+      "language": "batch",
+      "sizeLines": 9,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/test_backend.bat",
+      "language": "batch",
+      "sizeLines": 7,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/test_frontend.bat",
+      "language": "batch",
+      "sizeLines": 8,
+      "fileCategory": "script"
+    },
+    {
+      "path": "start.bat",
+      "language": "batch",
+      "sizeLines": 26,
+      "fileCategory": "script"
+    }
+  ],
+  "importData": {
+    ".devcontainer/devcontainer.json": [],
+    ".env.example": [],
+    "AGENTS.md": [],
+    "CLAUDE.md": [],
+    "README.md": [],
+    "alembic.ini": [],
+    "backend/.env.example": [],
+    "backend/.gitkeep": [],
+    "requirements.txt": [],
+    "run.py": [],
+    "scripts/build_all.bat": [],
+    "scripts/build_frontend.bat": [],
+    "scripts/check_all.bat": [],
+    "scripts/check_frontend.bat": [],
+    "scripts/coverage_backend.bat": [],
+    "scripts/dev.ps1": [],
+    "scripts/lint_frontend.bat": [],
+    "scripts/start_all_dev.bat": [],
+    "scripts/start_backend_dev.bat": [],
+    "scripts/start_frontend_dev.bat": [],
+    "scripts/start_worker_dev.bat": [],
+    "scripts/test_all.bat": [],
+    "scripts/test_backend.bat": [],
+    "scripts/test_frontend.bat": [],
+    "start.bat": []
+  }
+}

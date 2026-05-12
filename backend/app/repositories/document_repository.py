@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from sqlalchemy import select, func, or_
+from sqlalchemy import select, func
 from sqlalchemy.orm import Session
 
 from backend.app.models import Document
@@ -26,7 +26,6 @@ class DocumentRepository:
         self,
         *,
         search: str | None = None,
-        tag_ids: list[int] | None = None,
         sort_by: str = "created_at",
         order: str = "desc",
         limit: int | None = None,
@@ -36,12 +35,6 @@ class DocumentRepository:
 
         if search:
             statement = statement.where(Document.name.ilike(f"%{search}%"))
-
-        if tag_ids:
-            from backend.app.models.tag import DocumentTagRelation
-            statement = statement.join(DocumentTagRelation).where(
-                DocumentTagRelation.tag_id.in_(tag_ids)
-            )
 
         sort_column = getattr(Document, sort_by, Document.created_at)
         if order == "asc":
@@ -59,18 +52,11 @@ class DocumentRepository:
         self,
         *,
         search: str | None = None,
-        tag_ids: list[int] | None = None,
     ) -> int:
         statement = select(func.count(Document.id))
 
         if search:
             statement = statement.where(Document.name.ilike(f"%{search}%"))
-
-        if tag_ids:
-            from backend.app.models.tag import DocumentTagRelation
-            statement = statement.join(DocumentTagRelation).where(
-                DocumentTagRelation.tag_id.in_(tag_ids)
-            )
 
         return int(self.db_session.scalar(statement) or 0)
 

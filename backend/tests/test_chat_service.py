@@ -3,7 +3,7 @@ from __future__ import annotations
 from backend.app.exceptions import AppError
 from backend.app.models import Message, Session as ChatSession
 from backend.app.services.chat_service import ChatService
-from backend.app.services.qa_service import QAResult
+from backend.app.services.customer_service_qa import QAResult
 from backend.app.services.retrieval_service import RetrievedChunk
 from backend.infrastructure.database import create_database_engine, create_session_factory, initialize_database
 from backend.tests.support import create_workspace_temp_dir
@@ -25,17 +25,11 @@ class FakeQAService:
         self.error = error
         self.queries: list[str] = []
 
-    def ask(self, db_session, *, query: str) -> QAResult:
+    def answer(self, db_session, *, query: str, session_id: str, product_id: str | None = None) -> QAResult:
         self.queries.append(query)
         if self.error is not None:
             raise self.error
         return self.result
-
-    def stream_ask(self, db_session, *, query: str):
-        self.queries.append(query)
-        if self.error is not None:
-            raise self.error
-        return self.result.citations, self.result.tool_calls, iter([self.result.answer])
 
 
 def create_session_record(session_factory, *, title: str = "新会话") -> str:
@@ -51,7 +45,7 @@ def test_create_session_persists_default_title() -> None:
     engine = create_database_engine(f"sqlite+pysqlite:///{(temp_dir / 'chat.sqlite3').resolve()}")
     initialize_database(engine)
     session_factory = create_session_factory(engine)
-    service = ChatService(qa_service=FakeQAService(QAResult(answer="ok", citations=[], tool_calls=[])))
+    service = ChatService(qa_service=FakeQAService(QAResult(answer="ok", intent="knowledge_query", citations=[], diagnosis=None, similar_tickets=None)))
 
     with session_factory() as db_session:
         session = service.create_session(db_session)
@@ -69,6 +63,7 @@ def test_query_persists_messages_and_updates_title_from_first_query() -> None:
     qa_service = FakeQAService(
         QAResult(
             answer="这是回答",
+            intent="fault_diagnosis",
             citations=[
                 RetrievedChunk(
                     chunk_id="chunk-1",
@@ -83,16 +78,8 @@ def test_query_persists_messages_and_updates_title_from_first_query() -> None:
                     score=0.9,
                 )
             ],
-            tool_calls=[
-                {
-                    "tool_name": "web_search",
-                    "arguments": {"query": "这是第一条问题，会自动生成会话标题"},
-                    "status": "success",
-                    "result_summary": "命中 1 条搜索结果",
-                    "error_code": None,
-                    "error_detail": None,
-                }
-            ],
+            diagnosis={"sop_id": "sop-1", "current_step": {"description": "检查电源"}, "current_step_index": 0, "total_steps": 3},
+            similar_tickets=None,
         )
     )
     service = ChatService(qa_service=qa_service)
@@ -119,7 +106,7 @@ def test_query_persists_messages_and_updates_title_from_first_query() -> None:
     assert stored_messages[0].citations == []
     assert stored_messages[0].tool_calls == []
     assert stored_messages[1].citations[0]["document_id"] == "doc-1"
-    assert stored_messages[1].tool_calls[0]["tool_name"] == "web_search"
+    assert stored_messages[1].tool_calls[0]["tool_name"] == "fault_diagnosis"
 
 
 def test_query_keeps_existing_title_after_first_message() -> None:
@@ -127,7 +114,7 @@ def test_query_keeps_existing_title_after_first_message() -> None:
     engine = create_database_engine(f"sqlite+pysqlite:///{(temp_dir / 'chat.sqlite3').resolve()}")
     initialize_database(engine)
     session_factory = create_session_factory(engine)
-    qa_service = FakeQAService(QAResult(answer="这是回答", citations=[], tool_calls=[]))
+    qa_service = FakeQAService(QAResult(answer="这是回答", intent="knowledge_query", citations=[], diagnosis=None, similar_tickets=None))
     service = ChatService(qa_service=qa_service)
     session_id = create_session_record(session_factory, title="初始标题")
 
@@ -148,12 +135,12 @@ def test_query_keeps_existing_title_after_first_message() -> None:
     assert len(stored_messages) == 4
 
 
-def test_list_messages_raises_for_missing_session() -> None:
+def test_list_sessions_raises_for_missing_session() -> None:
     temp_dir = create_workspace_temp_dir("chat-service")
     engine = create_database_engine(f"sqlite+pysqlite:///{(temp_dir / 'chat.sqlite3').resolve()}")
     initialize_database(engine)
     session_factory = create_session_factory(engine)
-    service = ChatService(qa_service=FakeQAService(QAResult(answer="ok", citations=[], tool_calls=[])))
+    service = ChatService(qa_service=FakeQAService(QAResult(answer="ok", intent="knowledge_query", citations=[], diagnosis=None, similar_tickets=None)))
 
     with session_factory() as db_session:
         try:
@@ -173,7 +160,7 @@ def test_query_does_not_persist_partial_messages_when_qa_fails() -> None:
     session_factory = create_session_factory(engine)
     service = ChatService(
         qa_service=FakeQAService(
-            QAResult(answer="unused", citations=[], tool_calls=[]),
+            QAResult(answer="unused", intent="knowledge_query", citations=[], diagnosis=None, similar_tickets=None),
             error=AppError("问答失败", code="qa_failed", status_code=502),
         )
     )
@@ -202,6 +189,7 @@ def test_stream_query_emits_events_and_persists_messages() -> None:
     qa_service = FakeQAService(
         QAResult(
             answer="流式回答",
+            intent="fault_diagnosis",
             citations=[
                 RetrievedChunk(
                     chunk_id="chunk-1",
@@ -216,16 +204,8 @@ def test_stream_query_emits_events_and_persists_messages() -> None:
                     score=0.9,
                 )
             ],
-            tool_calls=[
-                {
-                    "tool_name": "web_search",
-                    "arguments": {"query": "请给出结论"},
-                    "status": "success",
-                    "result_summary": "命中 1 条搜索结果",
-                    "error_code": None,
-                    "error_detail": None,
-                }
-            ],
+            diagnosis={"sop_id": "sop-1", "current_step": {"description": "检查电源"}, "current_step_index": 0, "total_steps": 3},
+            similar_tickets=None,
         )
     )
     service = ChatService(qa_service=qa_service)
@@ -240,15 +220,15 @@ def test_stream_query_emits_events_and_persists_messages() -> None:
     assert [event.event for event in events] == ["message_start", "citation", "tool_call", "tool_result", "token", "message_end"]
     assert events[1].data["document_id"] == "doc-1"
     assert events[1].data["source_type"] == "image"
-    assert events[2].data["tool_name"] == "web_search"
-    assert events[3].data["status"] == "success"
+    assert events[2].data["tool_name"] == "fault_diagnosis"
+    assert events[3].data["status"] == "completed"
     assert events[4].data["content"] == "流式回答"
     assert len(stored_messages) == 2
     assert stored_messages[0].role == "user"
     assert stored_messages[1].role == "assistant"
     assert stored_messages[1].citations[0]["document_id"] == "doc-1"
     assert stored_messages[1].citations[0]["source_type"] == "image"
-    assert stored_messages[1].tool_calls[0]["tool_name"] == "web_search"
+    assert stored_messages[1].tool_calls[0]["tool_name"] == "fault_diagnosis"
 
 
 def test_stream_query_returns_error_event_and_rolls_back() -> None:
@@ -258,7 +238,7 @@ def test_stream_query_returns_error_event_and_rolls_back() -> None:
     session_factory = create_session_factory(engine)
     service = ChatService(
         qa_service=FakeQAService(
-            QAResult(answer="unused", citations=[], tool_calls=[]),
+            QAResult(answer="unused", intent="knowledge_query", citations=[], diagnosis=None, similar_tickets=None),
             error=AppError("流式失败", code="stream_failed", status_code=502),
         )
     )
@@ -284,15 +264,16 @@ def test_stream_query_emits_tool_events_and_summary() -> None:
     qa_service = FakeQAService(
         QAResult(
             answer="这是带工具的回答",
+            intent="ticket_query",
             citations=[],
-            tool_calls=[
+            diagnosis=None,
+            similar_tickets=[
                 {
-                    "tool_name": "web_search",
-                    "arguments": {"query": "今天最新消息"},
-                    "status": "success",
-                    "result_summary": "命中 1 条搜索结果",
-                    "error_code": None,
-                    "error_detail": None,
+                    "id": "ticket-1",
+                    "title": "设备无法启动",
+                    "status": "resolved",
+                    "priority": "high",
+                    "solution": "更换电源模块",
                 }
             ],
         )
@@ -306,9 +287,9 @@ def test_stream_query_emits_tool_events_and_summary() -> None:
     engine.dispose()
 
     assert [event.event for event in events] == ["message_start", "tool_call", "tool_result", "token", "message_end"]
-    assert events[1].data["tool_name"] == "web_search"
-    assert events[2].data["status"] == "success"
-    assert events[-1].data["tool_calls"][0]["tool_name"] == "web_search"
+    assert events[1].data["tool_name"] == "ticket_search"
+    assert events[2].data["status"] == "completed"
+    assert events[-1].data["tool_calls"][0]["tool_name"] == "ticket_search"
 
 
 def test_update_session_changes_title() -> None:
@@ -316,7 +297,7 @@ def test_update_session_changes_title() -> None:
     engine = create_database_engine(f"sqlite+pysqlite:///{(temp_dir / 'chat.sqlite3').resolve()}")
     initialize_database(engine)
     session_factory = create_session_factory(engine)
-    service = ChatService(qa_service=FakeQAService(QAResult(answer="ok", citations=[], tool_calls=[])))
+    service = ChatService(qa_service=FakeQAService(QAResult(answer="ok", intent="knowledge_query", citations=[], diagnosis=None, similar_tickets=None)))
     session_id = create_session_record(session_factory, title="旧标题")
 
     with session_factory() as db_session:
@@ -332,7 +313,7 @@ def test_update_session_raises_for_missing_session() -> None:
     engine = create_database_engine(f"sqlite+pysqlite:///{(temp_dir / 'chat.sqlite3').resolve()}")
     initialize_database(engine)
     session_factory = create_session_factory(engine)
-    service = ChatService(qa_service=FakeQAService(QAResult(answer="ok", citations=[], tool_calls=[])))
+    service = ChatService(qa_service=FakeQAService(QAResult(answer="ok", intent="knowledge_query", citations=[], diagnosis=None, similar_tickets=None)))
 
     with session_factory() as db_session:
         try:
@@ -350,7 +331,7 @@ def test_search_sessions_filters_by_keyword() -> None:
     engine = create_database_engine(f"sqlite+pysqlite:///{(temp_dir / 'chat.sqlite3').resolve()}")
     initialize_database(engine)
     session_factory = create_session_factory(engine)
-    service = ChatService(qa_service=FakeQAService(QAResult(answer="ok", citations=[], tool_calls=[])))
+    service = ChatService(qa_service=FakeQAService(QAResult(answer="ok", intent="knowledge_query", citations=[], diagnosis=None, similar_tickets=None)))
     create_session_record(session_factory, title="Python 编程问题")
     create_session_record(session_factory, title="JavaScript 开发")
     create_session_record(session_factory, title="Python 数据分析")
@@ -369,7 +350,7 @@ def test_search_sessions_returns_all_when_keyword_empty() -> None:
     engine = create_database_engine(f"sqlite+pysqlite:///{(temp_dir / 'chat.sqlite3').resolve()}")
     initialize_database(engine)
     session_factory = create_session_factory(engine)
-    service = ChatService(qa_service=FakeQAService(QAResult(answer="ok", citations=[], tool_calls=[])))
+    service = ChatService(qa_service=FakeQAService(QAResult(answer="ok", intent="knowledge_query", citations=[], diagnosis=None, similar_tickets=None)))
     create_session_record(session_factory, title="会话1")
     create_session_record(session_factory, title="会话2")
 
@@ -387,7 +368,7 @@ def test_generate_session_title_uses_llm_when_available() -> None:
     initialize_database(engine)
     session_factory = create_session_factory(engine)
     chat_client = FakeChatClient(response="LLM生成的标题")
-    service = ChatService(qa_service=FakeQAService(QAResult(answer="ok", citations=[], tool_calls=[])), chat_client=chat_client)
+    service = ChatService(qa_service=FakeQAService(QAResult(answer="ok", intent="knowledge_query", citations=[], diagnosis=None, similar_tickets=None)), chat_client=chat_client)
     session_id = create_session_record(session_factory)
 
     with session_factory() as db_session:
@@ -410,7 +391,7 @@ def test_generate_session_title_falls_back_when_llm_fails() -> None:
         def generate(self, *, system_prompt: str, user_prompt: str) -> str:
             raise Exception("LLM调用失败")
 
-    service = ChatService(qa_service=FakeQAService(QAResult(answer="ok", citations=[], tool_calls=[])), chat_client=FailingChatClient())
+    service = ChatService(qa_service=FakeQAService(QAResult(answer="ok", intent="knowledge_query", citations=[], diagnosis=None, similar_tickets=None)), chat_client=FailingChatClient())
     session_id = create_session_record(session_factory)
 
     with session_factory() as db_session:
@@ -427,7 +408,7 @@ def test_generate_session_title_raises_for_empty_session() -> None:
     engine = create_database_engine(f"sqlite+pysqlite:///{(temp_dir / 'chat.sqlite3').resolve()}")
     initialize_database(engine)
     session_factory = create_session_factory(engine)
-    service = ChatService(qa_service=FakeQAService(QAResult(answer="ok", citations=[], tool_calls=[])))
+    service = ChatService(qa_service=FakeQAService(QAResult(answer="ok", intent="knowledge_query", citations=[], diagnosis=None, similar_tickets=None)))
     session_id = create_session_record(session_factory)
 
     with session_factory() as db_session:
@@ -449,6 +430,7 @@ def test_export_session_markdown_includes_messages_and_citations() -> None:
     qa_service = FakeQAService(
         QAResult(
             answer="这是回答",
+            intent="knowledge_query",
             citations=[
                 RetrievedChunk(
                     chunk_id="chunk-1",
@@ -463,7 +445,8 @@ def test_export_session_markdown_includes_messages_and_citations() -> None:
                     score=0.9,
                 )
             ],
-            tool_calls=[],
+            diagnosis=None,
+            similar_tickets=None,
         )
     )
     service = ChatService(qa_service=qa_service)
@@ -492,7 +475,7 @@ def test_export_session_markdown_raises_for_missing_session() -> None:
     engine = create_database_engine(f"sqlite+pysqlite:///{(temp_dir / 'chat.sqlite3').resolve()}")
     initialize_database(engine)
     session_factory = create_session_factory(engine)
-    service = ChatService(qa_service=FakeQAService(QAResult(answer="ok", citations=[], tool_calls=[])))
+    service = ChatService(qa_service=FakeQAService(QAResult(answer="ok", intent="knowledge_query", citations=[], diagnosis=None, similar_tickets=None)))
 
     with session_factory() as db_session:
         try:

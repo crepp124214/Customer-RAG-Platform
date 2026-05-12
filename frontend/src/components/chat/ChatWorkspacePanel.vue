@@ -161,9 +161,6 @@ async function send() {
             <strong>{{ citation.document_name }}</strong>
             <span class="citation-type">{{ getCitationLabel(citation) }}</span>
             <span v-if="citation.page_number !== null">第 {{ citation.page_number }} 页</span>
-            <span v-if="citation.source_type === 'graph' && citation.entity_path">
-              实体路径：{{ citation.entity_path }}
-            </span>
             <p>{{ citation.content }}</p>
           </div>
         </div>

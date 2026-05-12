@@ -11,7 +11,7 @@ from backend.app.exceptions import AppError
 from backend.app.models import Message, Session as ChatSession
 from backend.app.repositories.message_repository import MessageRepository
 from backend.app.repositories.session_repository import SessionRepository
-from backend.app.services.qa_service import KnowledgeBaseQAService, QAResult
+from backend.app.services.customer_service_qa import CustomerServiceQA, QAResult
 from backend.infrastructure.observability import log_event
 
 
@@ -36,8 +36,6 @@ def _serialize_citations(citations: list[Any]) -> list[dict[str, Any]]:
             "source_type": citation.source_type,
             "asset_label": citation.asset_label,
             "preview_available": citation.preview_available,
-            "relation_label": citation.relation_label,
-            "entity_path": citation.entity_path,
         }
         for citation in citations
     ]
@@ -50,12 +48,13 @@ class ChatStreamEvent:
 
 
 class ChatService:
-    def __init__(self, *, qa_service: KnowledgeBaseQAService, chat_client: Any | None = None) -> None:
+    def __init__(self, *, qa_service: CustomerServiceQA, chat_client: Any | None = None) -> None:
         self.qa_service = qa_service
         self.chat_client = chat_client
 
-    def create_session(self, db_session: Session, *, title: str = "新会话") -> ChatSession:
-        session = SessionRepository(db_session).add(ChatSession(title=title))
+    def create_session(self, db_session: Session, *, title: str = "新会话", product_id: str | None = None, ticket_id: str | None = None) -> ChatSession:
+        session = ChatSession(title=title, product_id=product_id, ticket_id=ticket_id)
+        session = SessionRepository(db_session).add(session)
         db_session.commit()
         db_session.refresh(session)
         log_event(logger, logging.INFO, "chat.session_created", session_id=session.id, title=session.title)
@@ -63,11 +62,6 @@ class ChatService:
 
     def list_sessions(self, db_session: Session) -> list[ChatSession]:
         return SessionRepository(db_session).list_recent()
-
-    def search_sessions(self, db_session: Session, *, keyword: str) -> list[ChatSession]:
-        if not keyword.strip():
-            return self.list_sessions(db_session)
-        return SessionRepository(db_session).search(keyword.strip())
 
     def update_session(self, db_session: Session, *, session_id: str, title: str | None = None) -> ChatSession:
         session_repository = SessionRepository(db_session)
@@ -116,56 +110,6 @@ class ChatService:
         log_event(logger, logging.INFO, "chat.title_generated", session_id=session.id, title=title)
         return title
 
-    def export_session_markdown(self, db_session: Session, *, session_id: str) -> tuple[str, str]:
-        session = SessionRepository(db_session).get_by_id(session_id)
-        if session is None:
-            raise AppError("会话不存在", code="session_not_found", status_code=404)
-
-        messages = MessageRepository(db_session).list_by_session_id(session_id)
-
-        lines = [
-            f"# {session.title}",
-            "",
-            f"**创建时间**: {session.created_at.strftime('%Y-%m-%d %H:%M:%S')}",
-            f"**更新时间**: {session.updated_at.strftime('%Y-%m-%d %H:%M:%S')}",
-            "",
-            "---",
-            "",
-        ]
-
-        for message in messages:
-            role_label = "用户" if message.role == "user" else "助手"
-            lines.append(f"## {role_label} ({message.created_at.strftime('%Y-%m-%d %H:%M:%S')})")
-            lines.append("")
-            lines.append(message.content)
-            lines.append("")
-
-            if message.citations:
-                lines.append("### 引用")
-                lines.append("")
-                for idx, citation in enumerate(message.citations, 1):
-                    lines.append(f"{idx}. **{citation['document_name']}**")
-                    if citation.get('page_number'):
-                        lines.append(f"   - 页码: {citation['page_number']}")
-                    lines.append(f"   - 内容: {citation['content'][:100]}...")
-                    lines.append("")
-
-            if message.tool_calls:
-                lines.append("### 工具调用")
-                lines.append("")
-                for tool_call in message.tool_calls:
-                    lines.append(f"- **{tool_call['tool_name']}**")
-                    lines.append(f"  - 状态: {tool_call['status']}")
-                    if tool_call.get('result_summary'):
-                        lines.append(f"  - 结果: {tool_call['result_summary']}")
-                    lines.append("")
-
-            lines.append("---")
-            lines.append("")
-
-        log_event(logger, logging.INFO, "chat.session_exported", session_id=session.id, message_count=len(messages))
-        return session.title, "\n".join(lines)
-
     def list_messages(self, db_session: Session, *, session_id: str) -> list[Message]:
         session = SessionRepository(db_session).get_by_id(session_id)
         if session is None:
@@ -190,15 +134,26 @@ class ChatService:
             user_message = message_repository.add(
                 Message(session_id=session_id, role="user", content=query, citations=[], tool_calls=[]),
             )
-            qa_result = self.qa_service.ask(db_session, query=query)
-            tool_calls = getattr(qa_result, "tool_calls", [])
+            qa_result = self.qa_service.answer(
+                db_session,
+                query=query,
+                session_id=session_id,
+                product_id=session.product_id,
+            )
+            tool_calls: list[dict[str, Any]] = []
+            if qa_result.diagnosis is not None:
+                tool_calls.append({"tool_name": "fault_diagnosis", "arguments": {}, "status": "completed", "result_summary": str(qa_result.diagnosis.get("sop_id", ""))})
+            if qa_result.similar_tickets:
+                tool_calls.append({"tool_name": "ticket_search", "arguments": {}, "status": "completed", "result_summary": f"找到 {len(qa_result.similar_tickets)} 条相似工单"})
+
             assistant_message = message_repository.add(
                 Message(
                     session_id=session_id,
                     role="assistant",
                     content=qa_result.answer,
                     citations=_serialize_citations(qa_result.citations),
-                    tool_calls=tool_calls,
+                    tool_calls=tool_calls if tool_calls else None,
+                    diagnosis_context=qa_result.diagnosis,
                 ),
             )
 
@@ -215,7 +170,7 @@ class ChatService:
                 user_message_id=user_message.id,
                 assistant_message_id=assistant_message.id,
                 citation_count=len(qa_result.citations),
-                tool_count=len(tool_calls),
+                intent=qa_result.intent,
             )
             return qa_result, user_message, assistant_message
         except Exception:
@@ -246,11 +201,16 @@ class ChatService:
             db_session.add(session)
 
         try:
-            citations, tool_calls, answer_stream = self.qa_service.stream_ask(db_session, query=query)
+            qa_result = self.qa_service.answer(
+                db_session,
+                query=query,
+                session_id=session_id,
+                product_id=session.product_id,
+            )
 
             yield ChatStreamEvent(event="message_start", data={"session_id": session_id})
 
-            for citation in citations:
+            for citation in qa_result.citations:
                 yield ChatStreamEvent(
                     event="citation",
                     data={
@@ -262,31 +222,45 @@ class ChatService:
                         "source_type": citation.source_type,
                         "asset_label": citation.asset_label,
                         "preview_available": citation.preview_available,
-                        "relation_label": citation.relation_label,
-                        "entity_path": citation.entity_path,
                     },
                 )
 
-            for tool_call in tool_calls:
+            if qa_result.diagnosis is not None:
                 yield ChatStreamEvent(
                     event="tool_call",
-                    data={
-                        "tool_name": tool_call["tool_name"],
-                        "arguments": tool_call["arguments"],
-                    },
+                    data={"tool_name": "fault_diagnosis", "arguments": {}},
                 )
-                yield ChatStreamEvent(event="tool_result", data=tool_call)
+                yield ChatStreamEvent(
+                    event="tool_result",
+                    data={"tool_name": "fault_diagnosis", "status": "completed", "result_summary": str(qa_result.diagnosis.get("sop_id", ""))},
+                )
 
+            if qa_result.similar_tickets:
+                yield ChatStreamEvent(
+                    event="tool_call",
+                    data={"tool_name": "ticket_search", "arguments": {}},
+                )
+                yield ChatStreamEvent(
+                    event="tool_result",
+                    data={"tool_name": "ticket_search", "status": "completed", "result_summary": f"找到 {len(qa_result.similar_tickets)} 条相似工单"},
+                )
+
+            answer = qa_result.answer
+            chunk_size = 24
             answer_parts: list[str] = []
-            for token in answer_stream:
-                if not token:
-                    continue
+            for start in range(0, len(answer), chunk_size):
+                token = answer[start:start + chunk_size]
                 answer_parts.append(token)
                 yield ChatStreamEvent(event="token", data={"content": token})
 
-            answer = "".join(answer_parts).strip()
             if not answer:
                 raise AppError("问答生成结果为空", code="chat_generation_empty", status_code=502)
+
+            tool_calls: list[dict[str, Any]] = []
+            if qa_result.diagnosis is not None:
+                tool_calls.append({"tool_name": "fault_diagnosis", "arguments": {}, "status": "completed", "result_summary": str(qa_result.diagnosis.get("sop_id", ""))})
+            if qa_result.similar_tickets:
+                tool_calls.append({"tool_name": "ticket_search", "arguments": {}, "status": "completed", "result_summary": f"找到 {len(qa_result.similar_tickets)} 条相似工单"})
 
             user_message = message_repository.add(
                 Message(session_id=session_id, role="user", content=query, citations=[], tool_calls=[]),
@@ -296,8 +270,9 @@ class ChatService:
                     session_id=session_id,
                     role="assistant",
                     content=answer,
-                    citations=_serialize_citations(citations),
-                    tool_calls=tool_calls,
+                    citations=_serialize_citations(qa_result.citations),
+                    tool_calls=tool_calls if tool_calls else None,
+                    diagnosis_context=qa_result.diagnosis,
                 ),
             )
 
@@ -313,15 +288,15 @@ class ChatService:
                 session_id=session_id,
                 user_message_id=user_message.id,
                 assistant_message_id=assistant_message.id,
-                citation_count=len(citations),
-                tool_count=len(tool_calls),
+                citation_count=len(qa_result.citations),
+                intent=qa_result.intent,
             )
 
             yield ChatStreamEvent(
                 event="message_end",
                 data={
                     "answer": answer,
-                    "citations": _serialize_citations(citations),
+                    "citations": _serialize_citations(qa_result.citations),
                     "tool_calls": tool_calls,
                     "user_message_id": user_message.id,
                     "assistant_message_id": assistant_message.id,

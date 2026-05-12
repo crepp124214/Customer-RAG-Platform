@@ -2,21 +2,34 @@
 import { onMounted, ref } from "vue"
 
 import ChatWorkspacePanel from "@/components/chat/ChatWorkspacePanel.vue"
-import SessionSidebar from "@/components/chat/SessionSidebar.vue"
-import DocumentManagerPanel from "@/components/documents/DocumentManagerPanel.vue"
-import TaskStatusPanel from "@/components/documents/TaskStatusPanel.vue"
+import DiagnosisPanel from "@/components/chat/DiagnosisPanel.vue"
+import ProductList from "@/components/products/ProductList.vue"
+import ProductDetail from "@/components/products/ProductDetail.vue"
+import KnowledgeBasePanel from "@/components/knowledge/KnowledgeBasePanel.vue"
+import TicketList from "@/components/tickets/TicketList.vue"
+import TicketDetail from "@/components/tickets/TicketDetail.vue"
 import { useSystemStore } from "@/stores/system"
+import { useProductStore } from "@/stores/products"
 
 const systemStore = useSystemStore()
-const leftSidebarCollapsed = ref(false)
-const rightSidebarTab = ref<'documents' | 'tasks'>('documents')
+const productStore = useProductStore()
+
+const leftSidebarTab = ref<'products' | 'tickets'>('products')
+const rightSidebarTab = ref<'knowledge' | 'diagnosis'>('knowledge')
+const selectedProductId = ref<string | null>(null)
+const selectedTicketId = ref<string | null>(null)
 
 onMounted(() => {
   void systemStore.loadHealth()
+  void productStore.fetchProducts()
 })
 
-function toggleLeftSidebar() {
-  leftSidebarCollapsed.value = !leftSidebarCollapsed.value
+function handleSelectProduct(productId: string) {
+  selectedProductId.value = productId
+}
+
+function handleSelectTicket(ticketId: string) {
+  selectedTicketId.value = ticketId
 }
 </script>
 
@@ -24,27 +37,44 @@ function toggleLeftSidebar() {
   <el-config-provider>
     <div class="app-shell">
       <div class="workspace-frame">
-        <!-- 左侧会话栏 - 可折叠 -->
-        <aside v-if="!leftSidebarCollapsed" class="nav-rail panel">
+        <aside class="nav-rail panel">
           <div class="rail-intro">
-            <h1>RAG 助手</h1>
-            <p class="rail-copy">智能文档检索</p>
+            <h1>客服知识平台</h1>
+            <p class="rail-copy">智能检索 · 故障诊断 · 工单管理</p>
           </div>
-          <SessionSidebar />
-          <button class="collapse-btn" @click="toggleLeftSidebar" title="收起侧边栏">
-            <span>‹</span>
-          </button>
+
+          <div class="rail-tabs">
+            <button
+              class="tab-btn"
+              :class="{ active: leftSidebarTab === 'products' }"
+              @click="leftSidebarTab = 'products'"
+            >
+              产品
+            </button>
+            <button
+              class="tab-btn"
+              :class="{ active: leftSidebarTab === 'tickets' }"
+              @click="leftSidebarTab = 'tickets'"
+            >
+              工单
+            </button>
+          </div>
+
+          <div class="tab-content">
+            <ProductList
+              v-show="leftSidebarTab === 'products'"
+              @select="handleSelectProduct"
+            />
+            <TicketList
+              v-show="leftSidebarTab === 'tickets'"
+              @select="handleSelectTicket"
+            />
+          </div>
         </aside>
 
-        <!-- 展开按钮 -->
-        <button v-else class="expand-btn" @click="toggleLeftSidebar" title="展开侧边栏">
-          <span>›</span>
-        </button>
-
-        <!-- 中间主工作区 -->
         <main class="main-stage panel">
           <header class="stage-header">
-            <h2>研究工作区</h2>
+            <h2>客服工作区</h2>
             <div v-if="systemStore.healthStatus" class="status-indicator" :class="systemStore.healthStatus">
               <span class="status-dot"></span>
               <span class="status-text">{{ systemStore.healthStatus === 'ok' ? '正常' : '异常' }}</span>
@@ -66,28 +96,27 @@ function toggleLeftSidebar() {
           </div>
         </main>
 
-        <!-- 右侧上下文栏 - 标签页 -->
         <aside class="context-rail panel">
           <div class="rail-tabs">
             <button
               class="tab-btn"
-              :class="{ active: rightSidebarTab === 'documents' }"
-              @click="rightSidebarTab = 'documents'"
+              :class="{ active: rightSidebarTab === 'knowledge' }"
+              @click="rightSidebarTab = 'knowledge'"
             >
-              文档
+              知识库
             </button>
             <button
               class="tab-btn"
-              :class="{ active: rightSidebarTab === 'tasks' }"
-              @click="rightSidebarTab = 'tasks'"
+              :class="{ active: rightSidebarTab === 'diagnosis' }"
+              @click="rightSidebarTab = 'diagnosis'"
             >
-              任务
+              诊断
             </button>
           </div>
 
           <div class="tab-content">
-            <DocumentManagerPanel v-show="rightSidebarTab === 'documents'" />
-            <TaskStatusPanel v-show="rightSidebarTab === 'tasks'" />
+            <KnowledgeBasePanel v-show="rightSidebarTab === 'knowledge'" />
+            <DiagnosisPanel v-show="rightSidebarTab === 'diagnosis'" />
           </div>
         </aside>
       </div>
@@ -155,21 +184,15 @@ h2 {
   font-size: 18px;
 }
 
-/* 布局 - 简化为可折叠的三栏 */
 .workspace-frame {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) 320px;
+  grid-template-columns: 280px minmax(0, 1fr) 320px;
   gap: 24px;
   max-width: 1600px;
   margin: 0 auto;
   min-height: calc(100vh - 64px);
 }
 
-.workspace-frame.left-collapsed {
-  grid-template-columns: auto minmax(0, 1fr) 320px;
-}
-
-/* 面板基础样式 - 极简 */
 .panel {
   border-radius: var(--radius-md);
   background: rgba(255, 255, 255, 0.8);
@@ -183,14 +206,12 @@ h2 {
   box-shadow: var(--shadow-md);
 }
 
-/* 左侧会话栏 */
 .nav-rail {
-  width: 240px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
   padding: 24px 16px;
-  position: relative;
+  overflow: hidden;
 }
 
 .rail-intro {
@@ -205,55 +226,53 @@ h2 {
   line-height: 1.5;
 }
 
-.collapse-btn {
+.rail-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid rgba(201, 184, 154, 0.2);
+  background: rgba(249, 246, 240, 0.4);
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 14px 16px;
+  border: none;
+  background: transparent;
+  color: var(--color-earth-600);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: "LXGW WenKai", serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.tab-btn:hover {
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--color-earth-900);
+}
+
+.tab-btn.active {
+  color: var(--color-earth-900);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.tab-btn.active::after {
+  content: '';
   position: absolute;
-  right: -12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 24px;
-  height: 48px;
-  border: 1px solid rgba(201, 184, 154, 0.2);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  background: rgba(255, 255, 255, 0.9);
-  color: var(--color-earth-600);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  transition: all 0.2s ease;
-  z-index: 10;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-terracotta-500);
 }
 
-.collapse-btn:hover {
-  background: rgba(255, 255, 255, 1);
-  color: var(--color-earth-900);
-  width: 28px;
+.tab-content {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
 }
 
-.expand-btn {
-  width: 32px;
-  height: 64px;
-  border: 1px solid rgba(201, 184, 154, 0.2);
-  border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.9);
-  color: var(--color-earth-600);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  transition: all 0.2s ease;
-  align-self: center;
-}
-
-.expand-btn:hover {
-  background: rgba(255, 255, 255, 1);
-  color: var(--color-earth-900);
-  transform: scale(1.05);
-}
-
-/* 中间主工作区 */
 .main-stage {
   display: flex;
   flex-direction: column;
@@ -301,7 +320,6 @@ h2 {
   border-radius: var(--radius-sm);
 }
 
-/* 右侧上下文栏 - 标签页 */
 .context-rail {
   display: flex;
   flex-direction: column;
@@ -309,67 +327,10 @@ h2 {
   overflow: hidden;
 }
 
-.rail-tabs {
-  display: flex;
-  gap: 0;
-  border-bottom: 1px solid rgba(201, 184, 154, 0.2);
-  background: rgba(249, 246, 240, 0.4);
-}
-
-.tab-btn {
-  flex: 1;
-  padding: 14px 16px;
-  border: none;
-  background: transparent;
-  color: var(--color-earth-600);
-  font-size: 14px;
-  font-weight: 500;
-  font-family: "LXGW WenKai", serif;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  position: relative;
-}
-
-.tab-btn:hover {
-  background: rgba(255, 255, 255, 0.5);
-  color: var(--color-earth-900);
-}
-
-.tab-btn.active {
-  color: var(--color-earth-900);
-  background: rgba(255, 255, 255, 0.8);
-}
-
-.tab-btn.active::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--color-terracotta-500);
-}
-
-.tab-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px;
-}
-
-/* 响应式 */
 @media (max-width: 1200px) {
   .workspace-frame {
     grid-template-columns: 1fr;
     gap: 16px;
-  }
-
-  .nav-rail {
-    width: 100%;
-  }
-
-  .collapse-btn,
-  .expand-btn {
-    display: none;
   }
 
   .context-rail {

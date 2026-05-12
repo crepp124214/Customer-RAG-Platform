@@ -54,7 +54,7 @@ def create_app(settings: BackendSettings | None = None) -> FastAPI:
         app.state.db_engine.dispose()
 
     app = FastAPI(
-        title=(settings.app_name if settings else "RAG 智能文档检索助手"),
+        title=(settings.app_name if settings else "客服智能知识平台"),
         docs_url="/docs",
         redoc_url="/redoc",
         openapi_url="/openapi.json",

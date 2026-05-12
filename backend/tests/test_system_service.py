@@ -12,7 +12,6 @@ def test_build_readiness_summary_returns_ready_when_required_components_are_heal
             ReadinessComponent(name='database', label='PostgreSQL', status='ready', required=True),
             ReadinessComponent(name='redis', label='Redis', status='ready', required=True),
             ReadinessComponent(name='storage', label='文件存储', status='ready', required=True),
-            ReadinessComponent(name='neo4j', label='Neo4j', status='skipped', required=False),
         ],
     )
 
@@ -32,11 +31,11 @@ def test_build_readiness_summary_returns_degraded_when_only_optional_component_f
             ReadinessComponent(name='redis', label='Redis', status='ready', required=True),
             ReadinessComponent(name='storage', label='文件存储', status='ready', required=True),
             ReadinessComponent(
-                name='neo4j',
-                label='Neo4j',
+                name='embedding',
+                label='向量嵌入服务',
                 status='failed',
                 required=False,
-                detail='bolt connection failed',
+                detail='embedding service unavailable',
             ),
         ],
     )

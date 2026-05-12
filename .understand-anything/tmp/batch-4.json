@@ -1,0 +1,186 @@
+{
+  "files": [
+    {
+      "path": "backend/app/orchestrators/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/app/orchestrators/document_ingestion.py",
+      "language": "python",
+      "sizeLines": 177,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/services/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/app/services/chat_service.py",
+      "language": "python",
+      "sizeLines": 321,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/services/chunking_service.py",
+      "language": "python",
+      "sizeLines": 69,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/services/document_service.py",
+      "language": "python",
+      "sizeLines": 134,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/services/parser_service.py",
+      "language": "python",
+      "sizeLines": 52,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/services/retrieval_service.py",
+      "language": "python",
+      "sizeLines": 91,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/services/system_service.py",
+      "language": "python",
+      "sizeLines": 143,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/tasks/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/app/tasks/__init__.py",
+      "language": "python",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/tasks/document_tasks.py",
+      "language": "python",
+      "sizeLines": 51,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/tasks/system_tasks.py",
+      "language": "python",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/tools/__init__.py",
+      "language": "python",
+      "sizeLines": 30,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/tools/base.py",
+      "language": "python",
+      "sizeLines": 64,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/tools/gating.py",
+      "language": "python",
+      "sizeLines": 5,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/tools/orchestrator.py",
+      "language": "python",
+      "sizeLines": 122,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/tools/registry.py",
+      "language": "python",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    }
+  ],
+  "importData": {
+    "backend/app/orchestrators/.gitkeep": [],
+    "backend/app/orchestrators/document_ingestion.py": [
+      "backend/app/exceptions.py",
+      "backend/app/models/__init__.py",
+      "backend/app/services/chunking_service.py",
+      "backend/app/services/parser_service.py",
+      "backend/infrastructure/observability/__init__.py",
+      "backend/infrastructure/vector/store.py"
+    ],
+    "backend/app/services/.gitkeep": [],
+    "backend/app/services/chat_service.py": [
+      "backend/app/exceptions.py",
+      "backend/app/models/__init__.py",
+      "backend/app/repositories/message_repository.py",
+      "backend/app/repositories/session_repository.py",
+      "backend/infrastructure/observability/__init__.py"
+    ],
+    "backend/app/services/chunking_service.py": [],
+    "backend/app/services/document_service.py": [
+      "backend/app/exceptions.py",
+      "backend/app/models/__init__.py",
+      "backend/app/repositories/document_repository.py",
+      "backend/app/repositories/task_repository.py",
+      "backend/app/settings/__init__.py",
+      "backend/app/tasks/document_tasks.py",
+      "backend/infrastructure/observability/__init__.py",
+      "backend/infrastructure/queue/__init__.py",
+      "backend/infrastructure/storage/file_storage.py"
+    ],
+    "backend/app/services/parser_service.py": [
+      "backend/app/exceptions.py"
+    ],
+    "backend/app/services/retrieval_service.py": [
+      "backend/app/models/__init__.py",
+      "backend/infrastructure/vector/store.py"
+    ],
+    "backend/app/services/system_service.py": [
+      "backend/app/settings/__init__.py",
+      "backend/infrastructure/database/__init__.py",
+      "backend/infrastructure/queue/__init__.py"
+    ],
+    "backend/app/tasks/.gitkeep": [],
+    "backend/app/tasks/__init__.py": [],
+    "backend/app/tasks/document_tasks.py": [
+      "backend/app/orchestrators/document_ingestion.py",
+      "backend/app/services/chunking_service.py",
+      "backend/app/services/parser_service.py",
+      "backend/app/settings/__init__.py",
+      "backend/infrastructure/database/__init__.py",
+      "backend/infrastructure/llm/__init__.py",
+      "backend/infrastructure/observability/__init__.py"
+    ],
+    "backend/app/tasks/system_tasks.py": [],
+    "backend/app/tools/__init__.py": [
+      "backend/app/tools/base.py",
+      "backend/app/tools/gating.py",
+      "backend/app/tools/orchestrator.py",
+      "backend/app/tools/registry.py"
+    ],
+    "backend/app/tools/base.py": [],
+    "backend/app/tools/gating.py": [],
+    "backend/app/tools/orchestrator.py": [
+      "backend/app/exceptions.py",
+      "backend/app/tools/base.py",
+      "backend/app/tools/registry.py",
+      "backend/infrastructure/observability/__init__.py"
+    ],
+    "backend/app/tools/registry.py": [
+      "backend/app/exceptions.py",
+      "backend/app/tools/__init__.py",
+      "backend/app/tools/base.py"
+    ]
+  }
+}

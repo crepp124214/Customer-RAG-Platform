@@ -19,7 +19,8 @@ describe("ChatWorkspacePanel", () => {
       {
         id: "session-stage-1",
         title: "产品路线讨论",
-        is_pinned: false,
+        product_id: null,
+        ticket_id: null,
         created_at: "2026-04-07T09:00:00Z",
         updated_at: "2026-04-07T10:00:00Z",
       },
@@ -140,7 +141,7 @@ describe("ChatWorkspacePanel", () => {
     expect(wrapper.text()).toContain("柱状图显示第二季度销量最高。")
   })
 
-  it("会渲染图谱引用标签和实体路径", async () => {
+  it("会渲染图谱引用标签", async () => {
     const pinia = createPinia()
     setActivePinia(pinia)
     const store = useChatStore()
@@ -163,8 +164,6 @@ describe("ChatWorkspacePanel", () => {
             source_type: "graph",
             asset_label: null,
             preview_available: false,
-            relation_label: "依赖",
-            entity_path: "系统 A -> 系统 B",
           },
         ],
       },
@@ -178,7 +177,6 @@ describe("ChatWorkspacePanel", () => {
 
     expect(wrapper.text()).toContain("系统蓝图.txt")
     expect(wrapper.text()).toContain("图谱引用")
-    expect(wrapper.text()).toContain("系统 A -> 系统 B")
     expect(wrapper.text()).toContain("系统依赖关系如下。")
   })
 
@@ -216,8 +214,6 @@ describe("ChatWorkspacePanel", () => {
             source_type: "graph",
             asset_label: null,
             preview_available: false,
-            relation_label: "依赖",
-            entity_path: "系统 A -> 系统 B",
           },
         ],
       },

@@ -71,7 +71,7 @@ def test_ready_check_returns_degraded_payload_without_blocking() -> None:
             http_status=200,
             components=[
                 ReadinessComponent(name='database', label='PostgreSQL', status='ready', required=True),
-                ReadinessComponent(name='neo4j', label='Neo4j', status='failed', required=False),
+                ReadinessComponent(name='embedding', label='向量嵌入服务', status='failed', required=False),
             ],
         )
         try:

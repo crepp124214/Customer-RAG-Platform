@@ -1,0 +1,128 @@
+{
+  "files": [
+    {
+      "path": "backend/api/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/api/deps/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/api/deps/database.py",
+      "language": "python",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/api/error_handlers.py",
+      "language": "python",
+      "sizeLines": 74,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/api/router.py",
+      "language": "python",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/api/routes/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/api/routes/__init__.py",
+      "language": "python",
+      "sizeLines": 3,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/api/routes/chat.py",
+      "language": "python",
+      "sizeLines": 253,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/api/routes/documents.py",
+      "language": "python",
+      "sizeLines": 130,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/api/routes/system.py",
+      "language": "python",
+      "sizeLines": 52,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/api/schemas/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/api/schemas/chat.py",
+      "language": "python",
+      "sizeLines": 91,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/api/schemas/documents.py",
+      "language": "python",
+      "sizeLines": 39,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/api/schemas/response.py",
+      "language": "python",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    }
+  ],
+  "importData": {
+    "backend/api/.gitkeep": [],
+    "backend/api/deps/.gitkeep": [],
+    "backend/api/deps/database.py": [
+      "backend/app/exceptions.py"
+    ],
+    "backend/api/error_handlers.py": [
+      "backend/api/schemas/response.py",
+      "backend/app/exceptions.py"
+    ],
+    "backend/api/router.py": [
+      "backend/api/routes/__init__.py"
+    ],
+    "backend/api/routes/.gitkeep": [],
+    "backend/api/routes/__init__.py": [],
+    "backend/api/routes/chat.py": [
+      "backend/api/deps/database.py",
+      "backend/api/schemas/chat.py",
+      "backend/api/schemas/response.py",
+      "backend/app/services/chat_service.py",
+      "backend/app/services/retrieval_service.py",
+      "backend/infrastructure/llm/__init__.py"
+    ],
+    "backend/api/routes/documents.py": [
+      "backend/api/deps/database.py",
+      "backend/api/schemas/documents.py",
+      "backend/api/schemas/response.py",
+      "backend/app/repositories/document_repository.py",
+      "backend/app/services/document_service.py"
+    ],
+    "backend/api/routes/system.py": [
+      "backend/api/schemas/response.py",
+      "backend/app/services/system_service.py",
+      "backend/infrastructure/observability/__init__.py"
+    ],
+    "backend/api/schemas/.gitkeep": [],
+    "backend/api/schemas/chat.py": [],
+    "backend/api/schemas/documents.py": [],
+    "backend/api/schemas/response.py": []
+  }
+}

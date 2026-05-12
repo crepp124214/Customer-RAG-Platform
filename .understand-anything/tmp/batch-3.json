@@ -1,0 +1,167 @@
+{
+  "files": [
+    {
+      "path": "backend/app/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/app/exceptions.py",
+      "language": "python",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/models/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/app/models/__init__.py",
+      "language": "python",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/models/base.py",
+      "language": "python",
+      "sizeLines": 42,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/models/chunk.py",
+      "language": "python",
+      "sizeLines": 30,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/models/document.py",
+      "language": "python",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/models/message.py",
+      "language": "python",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/models/session.py",
+      "language": "python",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/models/task.py",
+      "language": "python",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/repositories/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/app/repositories/chunk_repository.py",
+      "language": "python",
+      "sizeLines": 50,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/repositories/document_repository.py",
+      "language": "python",
+      "sizeLines": 70,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/repositories/message_repository.py",
+      "language": "python",
+      "sizeLines": 24,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/repositories/session_repository.py",
+      "language": "python",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/repositories/task_repository.py",
+      "language": "python",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/settings/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/app/settings/__init__.py",
+      "language": "python",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/app/settings/config.py",
+      "language": "python",
+      "sizeLines": 183,
+      "fileCategory": "code"
+    }
+  ],
+  "importData": {
+    "backend/app/.gitkeep": [],
+    "backend/app/exceptions.py": [],
+    "backend/app/models/.gitkeep": [],
+    "backend/app/models/__init__.py": [
+      "backend/app/models/base.py",
+      "backend/app/models/chunk.py",
+      "backend/app/models/document.py",
+      "backend/app/models/message.py",
+      "backend/app/models/session.py",
+      "backend/app/models/task.py"
+    ],
+    "backend/app/models/base.py": [],
+    "backend/app/models/chunk.py": [
+      "backend/app/models/base.py",
+      "backend/infrastructure/vector/types.py"
+    ],
+    "backend/app/models/document.py": [
+      "backend/app/models/base.py"
+    ],
+    "backend/app/models/message.py": [
+      "backend/app/models/base.py"
+    ],
+    "backend/app/models/session.py": [
+      "backend/app/models/base.py"
+    ],
+    "backend/app/models/task.py": [
+      "backend/app/models/base.py"
+    ],
+    "backend/app/repositories/.gitkeep": [],
+    "backend/app/repositories/chunk_repository.py": [
+      "backend/app/models/__init__.py"
+    ],
+    "backend/app/repositories/document_repository.py": [
+      "backend/app/models/__init__.py"
+    ],
+    "backend/app/repositories/message_repository.py": [
+      "backend/app/models/__init__.py"
+    ],
+    "backend/app/repositories/session_repository.py": [
+      "backend/app/models/__init__.py"
+    ],
+    "backend/app/repositories/task_repository.py": [
+      "backend/app/models/__init__.py"
+    ],
+    "backend/app/settings/.gitkeep": [],
+    "backend/app/settings/__init__.py": [],
+    "backend/app/settings/config.py": []
+  }
+}

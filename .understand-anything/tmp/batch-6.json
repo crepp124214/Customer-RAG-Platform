@@ -1,0 +1,138 @@
+{
+  "files": [
+    {
+      "path": "backend/infrastructure/database/migrations/env.py",
+      "language": "python",
+      "sizeLines": 58,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/database/migrations/script.py.mako",
+      "language": "mako",
+      "sizeLines": 26,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/infrastructure/database/migrations/versions/20260403_000001_create_phase_one_tables.py",
+      "language": "python",
+      "sizeLines": 91,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/database/migrations/versions/20260403_000002_add_chunk_embedding.py",
+      "language": "python",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/database/migrations/versions/20260406_000002_add_message_artifacts.py",
+      "language": "python",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/database/migrations/versions/20260406_000003_add_multimodal_chunk_fields.py",
+      "language": "python",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/database/migrations/versions/20260406_000004_add_document_graph_summary.py",
+      "language": "python",
+      "sizeLines": 27,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/database/migrations/versions/20260413_000005_add_document_tags_and_session_enhancements.py",
+      "language": "python",
+      "sizeLines": 103,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/vector/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/infrastructure/vector/__init__.py",
+      "language": "python",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/vector/store.py",
+      "language": "python",
+      "sizeLines": 144,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/infrastructure/vector/types.py",
+      "language": "python",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/main.py",
+      "language": "python",
+      "sizeLines": 115,
+      "fileCategory": "code"
+    },
+    {
+      "path": "worker/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "worker/__init__.py",
+      "language": "python",
+      "sizeLines": 3,
+      "fileCategory": "code"
+    },
+    {
+      "path": "worker/main.py",
+      "language": "python",
+      "sizeLines": 170,
+      "fileCategory": "code"
+    }
+  ],
+  "importData": {
+    "backend/infrastructure/database/migrations/env.py": [
+      "backend/app/models/__init__.py",
+      "backend/app/settings/__init__.py"
+    ],
+    "backend/infrastructure/database/migrations/script.py.mako": [],
+    "backend/infrastructure/database/migrations/versions/20260403_000001_create_phase_one_tables.py": [],
+    "backend/infrastructure/database/migrations/versions/20260403_000002_add_chunk_embedding.py": [],
+    "backend/infrastructure/database/migrations/versions/20260406_000002_add_message_artifacts.py": [],
+    "backend/infrastructure/database/migrations/versions/20260406_000003_add_multimodal_chunk_fields.py": [],
+    "backend/infrastructure/database/migrations/versions/20260406_000004_add_document_graph_summary.py": [],
+    "backend/infrastructure/database/migrations/versions/20260413_000005_add_document_tags_and_session_enhancements.py": [],
+    "backend/infrastructure/vector/.gitkeep": [],
+    "backend/infrastructure/vector/__init__.py": [
+      "backend/infrastructure/vector/types.py"
+    ],
+    "backend/infrastructure/vector/store.py": [
+      "backend/app/models/__init__.py",
+      "backend/infrastructure/vector/types.py"
+    ],
+    "backend/infrastructure/vector/types.py": [],
+    "backend/main.py": [
+      "backend/api/error_handlers.py",
+      "backend/api/router.py",
+      "backend/app/settings/__init__.py",
+      "backend/infrastructure/database/__init__.py",
+      "backend/infrastructure/observability/__init__.py"
+    ],
+    "worker/.gitkeep": [],
+    "worker/__init__.py": [
+      "worker/main.py"
+    ],
+    "worker/main.py": [
+      "backend/app/settings/__init__.py",
+      "backend/infrastructure/observability/__init__.py",
+      "backend/infrastructure/queue/__init__.py"
+    ]
+  }
+}

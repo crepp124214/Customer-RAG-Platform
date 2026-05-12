@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import json
 import logging
@@ -21,20 +21,17 @@ from backend.api.schemas.chat import (
     ChatStreamTokenData,
     CitationData,
     CreateSessionData,
-    ExportSessionData,
     MessageListItemData,
     SessionListItemData,
-    UpdateSessionRequest,
 )
 from backend.api.schemas.response import success_response
-from backend.app.exceptions import AppError
+from backend.app.repositories.fault_sop_repository import FaultSOPRepository
 from backend.app.services.chat_service import ChatService
-from backend.app.services.qa_service import KnowledgeBaseQAService
+from backend.app.services.customer_service_qa import CustomerServiceQA
+from backend.app.services.diagnosis_service import DiagnosisService
 from backend.app.services.retrieval_service import RetrievalService
-from backend.app.tools import DocumentLookupTool, ToolOrchestrator, ToolRegistry, WebSearchTool
-from backend.infrastructure.graph import create_graph_store
+from backend.app.services.ticket_service import TicketService
 from backend.infrastructure.llm import create_chat_client, create_embedding_client, create_reranker_client
-from backend.infrastructure.search import create_search_provider
 
 
 router = APIRouter(prefix='/chat', tags=['chat'])
@@ -48,27 +45,25 @@ def _format_sse_event(*, event: str, data: dict) -> str:
 def get_chat_service(request: Request) -> ChatService:
     settings = request.app.state.settings
     chat_client = create_chat_client(settings)
+    embedding_client = create_embedding_client(settings)
+    reranker_client = create_reranker_client(settings)
+
     retrieval_service = RetrievalService(
-        embedding_client=create_embedding_client(settings),
-        reranker_client=create_reranker_client(settings),
-        graph_store=create_graph_store(settings),
+        embedding_client=embedding_client,
+        reranker_client=reranker_client,
         vector_top_k=settings.vector_top_k,
         rerank_top_n=settings.rerank_top_n,
     )
-    tool_registry = ToolRegistry()
-    tool_registry.register(DocumentLookupTool().definition())
-    try:
-        tool_registry.register(WebSearchTool(search_provider=create_search_provider(settings)).definition())
-    except AppError as exc:
-        logger.warning(
-            "chat.web_search_disabled code=%s detail=%s",
-            exc.code,
-            exc.message,
-        )
-    qa_service = KnowledgeBaseQAService(
+    diagnosis_service = DiagnosisService()
+    ticket_service = TicketService(
+        embedding_client=embedding_client,
+        reranker_client=reranker_client,
+    )
+    qa_service = CustomerServiceQA(
         retrieval_service=retrieval_service,
+        diagnosis_service=diagnosis_service,
+        ticket_service=ticket_service,
         chat_client=chat_client,
-        tool_orchestrator=ToolOrchestrator(registry=tool_registry, chat_client=chat_client),
     )
     return ChatService(qa_service=qa_service, chat_client=chat_client)
 
@@ -87,14 +82,10 @@ def create_session(
 
 @router.get('/sessions')
 def list_sessions(
-    search: str | None = None,
     db_session: Session = Depends(get_db_session),
     chat_service: ChatService = Depends(get_chat_service),
 ) -> dict:
-    if search:
-        sessions = chat_service.search_sessions(db_session, keyword=search)
-    else:
-        sessions = chat_service.list_sessions(db_session)
+    sessions = chat_service.list_sessions(db_session)
     return success_response(
         message='获取会话列表成功',
         data=[
@@ -109,25 +100,6 @@ def list_sessions(
     )
 
 
-@router.put('/sessions/{session_id}')
-def update_session(
-    session_id: str,
-    payload: UpdateSessionRequest,
-    db_session: Session = Depends(get_db_session),
-    chat_service: ChatService = Depends(get_chat_service),
-) -> dict:
-    session = chat_service.update_session(db_session, session_id=session_id, title=payload.title)
-    return success_response(
-        message='会话更新成功',
-        data=SessionListItemData(
-            id=session.id,
-            title=session.title,
-            created_at=session.created_at.isoformat(),
-            updated_at=session.updated_at.isoformat(),
-        ).model_dump(),
-    )
-
-
 @router.post('/sessions/{session_id}/auto-title')
 def auto_generate_title(
     session_id: str,
@@ -138,23 +110,6 @@ def auto_generate_title(
     return success_response(
         message='标题生成成功',
         data=AutoTitleData(session_id=session_id, title=title).model_dump(),
-    )
-
-
-@router.get('/sessions/{session_id}/export')
-def export_session(
-    session_id: str,
-    db_session: Session = Depends(get_db_session),
-    chat_service: ChatService = Depends(get_chat_service),
-) -> dict:
-    title, markdown = chat_service.export_session_markdown(db_session, session_id=session_id)
-    return success_response(
-        message='会话导出成功',
-        data=ExportSessionData(
-            session_id=session_id,
-            title=title,
-            markdown=markdown,
-        ).model_dump(),
     )
 
 
@@ -208,12 +163,10 @@ def query_chat(
                     source_type=item.source_type,
                     asset_label=item.asset_label,
                     preview_available=item.preview_available,
-                    relation_label=item.relation_label,
-                    entity_path=item.entity_path,
                 )
                 for item in qa_result.citations
             ],
-            tool_calls=[ToolCallData(**item) for item in qa_result.tool_calls],
+            tool_calls=[ToolCallData(**item) for item in (getattr(qa_result, "tool_calls", []) or [])],
             user_message_id=user_message.id,
             assistant_message_id=assistant_message.id,
         ).model_dump(),

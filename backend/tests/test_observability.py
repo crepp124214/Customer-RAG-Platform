@@ -7,6 +7,7 @@ import pytest
 from backend.app.models import Session as ChatSession
 from backend.app.services import document_service as document_service_module
 from backend.app.services.chat_service import ChatService
+from backend.app.services.customer_service_qa import QAResult
 from backend.app.services.system_service import ReadinessComponent, ReadinessSummary
 from backend.infrastructure.observability import reset_request_id, set_request_id
 from backend.tests.support import create_initialized_test_client
@@ -71,7 +72,7 @@ def test_ready_endpoint_emits_structured_readiness_log(caplog: pytest.LogCapture
             http_status=200,
             components=[
                 ReadinessComponent(name='database', label='PostgreSQL', status='ready', required=True),
-                ReadinessComponent(name='neo4j', label='Neo4j', status='failed', required=False),
+                ReadinessComponent(name='embedding', label='向量嵌入服务', status='failed', required=False),
             ],
         )
         try:
@@ -109,8 +110,8 @@ def test_document_upload_emits_structured_log(
 
 
 class FakeQAService:
-    def ask(self, db_session, *, query: str):
-        return type("Result", (), {"answer": f"回答：{query}", "citations": []})()
+    def answer(self, db_session, *, query: str, session_id: str, product_id: str | None = None):
+        return QAResult(answer=f"回答：{query}", intent="knowledge_query", citations=[], diagnosis=None, similar_tickets=None)
 
 
 def test_chat_query_emits_session_log(caplog: pytest.LogCaptureFixture) -> None:

@@ -1,9 +1,8 @@
-// 会话相关类型定义
-
 export interface ChatSession {
   id: string
   title: string | null
-  is_pinned: boolean
+  product_id: string | null
+  ticket_id: string | null
   created_at: string
   updated_at: string
 }
@@ -28,8 +27,6 @@ export interface Citation {
   source_type: string
   asset_label: string | null
   preview_available: boolean
-  relation_label?: string | null
-  entity_path?: string | null
 }
 
 export interface ToolCall {
@@ -39,19 +36,6 @@ export interface ToolCall {
   result_summary: string | null
   error_code: string | null
   error_detail: string | null
-}
-
-export interface SessionUpdateParams {
-  title?: string
-  is_pinned?: boolean
-}
-
-export interface SessionSearchParams {
-  search?: string
-}
-
-export interface SessionExportResult {
-  content: string
 }
 
 export interface CreateSessionResult {

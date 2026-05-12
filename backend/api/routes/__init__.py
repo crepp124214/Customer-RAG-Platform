@@ -1,3 +1,3 @@
-from . import chat, documents, system, tags, tasks
+from . import chat, diagnosis, documents, knowledge, products, system, tickets
 
-__all__ = ["chat", "documents", "system", "tags", "tasks"]
+__all__ = ["chat", "diagnosis", "documents", "knowledge", "products", "system", "tickets"]

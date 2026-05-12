@@ -2,6 +2,10 @@ from __future__ import annotations
 
 from backend.app.exceptions import AppError
 from backend.app.tools.base import ToolDefinition
+from backend.app.tools.fault_diagnosis import FaultDiagnosisTool
+from backend.app.tools.product_spec_lookup import ProductSpecLookupTool
+from backend.app.tools.sop_lookup import SOPLookupTool
+from backend.app.tools.ticket_search import TicketSearchTool
 
 
 class ToolRegistry:
@@ -23,3 +27,18 @@ class ToolRegistry:
         else:
             definitions = [self.get(name) for name in names]
         return [definition.to_schema() for definition in definitions]
+
+
+_DEFAULT_TOOL_CLASSES = [
+    ProductSpecLookupTool,
+    TicketSearchTool,
+    FaultDiagnosisTool,
+    SOPLookupTool,
+]
+
+
+def create_default_registry() -> ToolRegistry:
+    registry = ToolRegistry()
+    for tool_cls in _DEFAULT_TOOL_CLASSES:
+        registry.register(tool_cls.definition())
+    return registry

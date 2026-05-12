@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 
 from backend.api.routes import chat as chat_route_module
-from backend.app.services.qa_service import QAResult
+from backend.app.services.customer_service_qa import QAResult
 from backend.app.services.retrieval_service import RetrievedChunk
 from backend.tests.support import create_initialized_test_client
 
@@ -82,13 +82,11 @@ class FakeChatService:
                     "source_type": "text",
                     "asset_label": None,
                     "preview_available": False,
-                    "relation_label": None,
-                    "entity_path": None,
                 }
             ],
             tool_calls=[
                 {
-                    "tool_name": "web_search",
+                    "tool_name": "search",
                     "arguments": {"query": "你好"},
                     "status": "success",
                     "result_summary": "命中 1 条搜索结果",
@@ -115,32 +113,23 @@ class FakeChatService:
         assistant_message.updated_at = now  # type: ignore[assignment]
         result = QAResult(
             answer="这是回答",
+            intent="knowledge_query",
             citations=[
                 RetrievedChunk(
                     chunk_id="chunk-1",
                     document_id="doc-1",
                     document_name="demo.txt",
                     chunk_index=0,
-                    content="系统 A -> 依赖 -> 系统 B",
+                    content="系统 A 依赖系统 B",
                     page_number=1,
-                    source_type="graph",
+                    source_type="text",
                     asset_label=None,
                     preview_available=False,
                     score=0.9,
-                    relation_label="依赖",
-                    entity_path="系统 A -> 系统 B",
                 )
             ],
-            tool_calls=[
-                {
-                    "tool_name": "web_search",
-                    "arguments": {"query": "请总结"},
-                    "status": "success",
-                    "result_summary": "命中 1 条搜索结果",
-                    "error_code": None,
-                    "error_detail": None,
-                }
-            ],
+            diagnosis=None,
+            similar_tickets=None,
         )
         return result, user_message, assistant_message
 
@@ -156,13 +145,11 @@ class FakeChatService:
                     "document_id": "doc-1",
                     "document_name": "demo.txt",
                     "chunk_id": "chunk-1",
-                    "content": "系统 A -> 依赖 -> 系统 B",
+                    "content": "系统 A 依赖系统 B",
                     "page_number": 1,
-                    "source_type": "graph",
+                    "source_type": "text",
                     "asset_label": None,
                     "preview_available": False,
-                    "relation_label": "依赖",
-                    "entity_path": "系统 A -> 系统 B",
                 },
             },
         )
@@ -172,7 +159,7 @@ class FakeChatService:
             {
                 "event": "tool_call",
                 "data": {
-                    "tool_name": "web_search",
+                    "tool_name": "search",
                     "arguments": {"query": query},
                 },
             },
@@ -183,7 +170,7 @@ class FakeChatService:
             {
                 "event": "tool_result",
                 "data": {
-                    "tool_name": "web_search",
+                    "tool_name": "search",
                     "arguments": {"query": query},
                     "status": "success",
                     "result_summary": "命中 1 条搜索结果",
@@ -202,7 +189,7 @@ class FakeChatService:
                     "answer": "流式",
                     "tool_calls": [
                         {
-                            "tool_name": "web_search",
+                            "tool_name": "search",
                             "arguments": {"query": query},
                             "status": "success",
                             "result_summary": "命中 1 条搜索结果",
@@ -308,9 +295,7 @@ def test_list_messages_endpoint_returns_session_messages() -> None:
     assert payload["data"][0]["role"] == "assistant"
     assert payload["data"][0]["citations"][0]["document_id"] == "doc-1"
     assert payload["data"][0]["citations"][0]["source_type"] == "text"
-    assert payload["data"][0]["citations"][0]["relation_label"] is None
-    assert payload["data"][0]["citations"][0]["entity_path"] is None
-    assert payload["data"][0]["tool_calls"][0]["tool_name"] == "web_search"
+    assert payload["data"][0]["tool_calls"][0]["tool_name"] == "search"
 
 
 def test_query_endpoint_returns_answer_and_citations() -> None:
@@ -329,10 +314,8 @@ def test_query_endpoint_returns_answer_and_citations() -> None:
     assert payload["success"] is True
     assert payload["data"]["answer"] == "这是回答"
     assert payload["data"]["citations"][0]["document_id"] == "doc-1"
-    assert payload["data"]["citations"][0]["source_type"] == "graph"
-    assert payload["data"]["citations"][0]["relation_label"] == "依赖"
-    assert payload["data"]["citations"][0]["entity_path"] == "系统 A -> 系统 B"
-    assert payload["data"]["tool_calls"][0]["tool_name"] == "web_search"
+    assert payload["data"]["citations"][0]["source_type"] == "text"
+    assert payload["data"]["tool_calls"] == []
     assert payload["data"]["user_message_id"] == "user-1"
     assert payload["data"]["assistant_message_id"] == "assistant-1"
 
@@ -395,11 +378,9 @@ def test_stream_endpoint_returns_sse_events() -> None:
         "token",
         "message_end",
     ]
-    assert events[2][1]["tool_name"] == "web_search"
+    assert events[2][1]["tool_name"] == "search"
     assert events[3][1]["status"] == "success"
-    assert events[1][1]["source_type"] == "graph"
-    assert events[1][1]["relation_label"] == "依赖"
-    assert events[1][1]["entity_path"] == "系统 A -> 系统 B"
+    assert events[1][1]["source_type"] == "text"
     assert events[-1][1]["citations"] == [events[1][1]]
     assert events[-1][1]["tool_calls"] == [events[3][1]]
 

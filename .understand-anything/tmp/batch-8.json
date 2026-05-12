@@ -1,0 +1,227 @@
+{
+  "files": [
+    {
+      "path": "frontend/.env.example",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "frontend/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "frontend/eslint.config.mjs",
+      "language": "javascript",
+      "sizeLines": 62,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/index.html",
+      "language": "html",
+      "sizeLines": 18,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "frontend/package.json",
+      "language": "json",
+      "sizeLines": 33,
+      "fileCategory": "config"
+    },
+    {
+      "path": "frontend/src/App.vue",
+      "language": "vue",
+      "sizeLines": 347,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/assets/styles/global.css",
+      "language": "css",
+      "sizeLines": 128,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "frontend/src/components/chat/ChatWorkspacePanel.vue",
+      "language": "vue",
+      "sizeLines": 638,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/config/env.ts",
+      "language": "typescript",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/main.ts",
+      "language": "typescript",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/services/chat.ts",
+      "language": "typescript",
+      "sizeLines": 277,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/services/documents.ts",
+      "language": "typescript",
+      "sizeLines": 95,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/services/http.ts",
+      "language": "typescript",
+      "sizeLines": 70,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/services/system.ts",
+      "language": "typescript",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/stores/chat.ts",
+      "language": "typescript",
+      "sizeLines": 301,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/stores/system.ts",
+      "language": "typescript",
+      "sizeLines": 55,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/tests/api.spec.ts",
+      "language": "typescript",
+      "sizeLines": 128,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/tests/chat-service.spec.ts",
+      "language": "typescript",
+      "sizeLines": 49,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/tests/chat-store.spec.ts",
+      "language": "typescript",
+      "sizeLines": 248,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/tests/chat-workspace.spec.ts",
+      "language": "typescript",
+      "sizeLines": 231,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/tests/setup.ts",
+      "language": "typescript",
+      "sizeLines": 5,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/types/chat.ts",
+      "language": "typescript",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/types/document.ts",
+      "language": "typescript",
+      "sizeLines": 34,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/types/index.ts",
+      "language": "typescript",
+      "sizeLines": 5,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/vite-env.d.ts",
+      "language": "typescript",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/tsconfig.json",
+      "language": "json",
+      "sizeLines": 22,
+      "fileCategory": "config"
+    },
+    {
+      "path": "frontend/vite.config.ts",
+      "language": "typescript",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    }
+  ],
+  "importData": {
+    "frontend/.env.example": [],
+    "frontend/.gitkeep": [],
+    "frontend/eslint.config.mjs": [],
+    "frontend/index.html": [],
+    "frontend/package.json": [],
+    "frontend/src/App.vue": [
+      "frontend/src/components/chat/ChatWorkspacePanel.vue",
+      "frontend/src/stores/system.ts"
+    ],
+    "frontend/src/assets/styles/global.css": [],
+    "frontend/src/components/chat/ChatWorkspacePanel.vue": [
+      "frontend/src/stores/chat.ts"
+    ],
+    "frontend/src/config/env.ts": [],
+    "frontend/src/main.ts": [
+      "frontend/src/App.vue",
+      "frontend/src/assets/styles/global.css"
+    ],
+    "frontend/src/services/chat.ts": [
+      "frontend/src/services/http.ts"
+    ],
+    "frontend/src/services/documents.ts": [
+      "frontend/src/services/http.ts"
+    ],
+    "frontend/src/services/http.ts": [
+      "frontend/src/config/env.ts"
+    ],
+    "frontend/src/services/system.ts": [
+      "frontend/src/services/http.ts"
+    ],
+    "frontend/src/stores/chat.ts": [
+      "frontend/src/services/chat.ts"
+    ],
+    "frontend/src/stores/system.ts": [
+      "frontend/src/services/system.ts"
+    ],
+    "frontend/src/tests/api.spec.ts": [
+      "frontend/src/services/documents.ts",
+      "frontend/src/services/http.ts",
+      "frontend/src/services/system.ts"
+    ],
+    "frontend/src/tests/chat-service.spec.ts": [
+      "frontend/src/services/chat.ts"
+    ],
+    "frontend/src/tests/chat-store.spec.ts": [
+      "frontend/src/services/chat.ts",
+      "frontend/src/stores/chat.ts"
+    ],
+    "frontend/src/tests/chat-workspace.spec.ts": [
+      "frontend/src/components/chat/ChatWorkspacePanel.vue",
+      "frontend/src/stores/chat.ts"
+    ],
+    "frontend/src/tests/setup.ts": [],
+    "frontend/src/types/chat.ts": [],
+    "frontend/src/types/document.ts": [],
+    "frontend/src/types/index.ts": [],
+    "frontend/src/vite-env.d.ts": [],
+    "frontend/tsconfig.json": [],
+    "frontend/vite.config.ts": []
+  }
+}

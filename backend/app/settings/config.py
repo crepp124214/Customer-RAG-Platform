@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import os
 from dataclasses import dataclass
@@ -16,7 +16,7 @@ ALLOWED_LLM_MODES = {'production', 'acceptance'}
 
 
 class SettingsError(ValueError):
-    """配置缺失或格式不正确时抛出的错误。"""
+    pass
 
 
 @dataclass(frozen=True)
@@ -31,20 +31,8 @@ class BackendSettings:
     llm_mode: str
     llm_base_url: str | None
     qwen_chat_model: str
-    qwen_vl_model: str
     embedding_model: str
     reranker_model: str
-    search_provider: str
-    search_api_key: str | None
-    search_base_url: str | None
-    search_timeout_seconds: float
-    multimodal_enabled: bool
-    max_visual_assets_per_document: int
-    visual_caption_timeout_seconds: float
-    neo4j_uri: str | None
-    neo4j_username: str | None
-    neo4j_password: str | None
-    graph_query_limit: int
     file_storage_path: Path
     max_upload_size_mb: int
     chunk_size: int
@@ -124,19 +112,6 @@ def _get_float(values: Mapping[str, str], key: str, default: float) -> float:
     return parsed
 
 
-def _get_bool(values: Mapping[str, str], key: str, default: bool) -> bool:
-    raw = values.get(key)
-    if raw is None or str(raw).strip() == '':
-        return default
-
-    normalized = str(raw).strip().lower()
-    if normalized in {'1', 'true', 'yes', 'on'}:
-        return True
-    if normalized in {'0', 'false', 'no', 'off'}:
-        return False
-    raise SettingsError(f'环境变量 {key} 必须是布尔值')
-
-
 def _resolve_storage_path(raw_path: str) -> Path:
     candidate = Path(raw_path)
     if candidate.is_absolute():
@@ -179,7 +154,7 @@ def load_backend_settings(
 
     return BackendSettings(
         app_env=app_env,
-        app_name=values.get('APP_NAME', 'RAG智能文档检索助手').strip() or 'RAG智能文档检索助手',
+        app_name=values.get('APP_NAME', '客服智能知识平台').strip() or '客服智能知识平台',
         api_prefix=values.get('API_PREFIX', '/api').strip() or '/api',
         database_url=_require(values, 'DATABASE_URL'),
         redis_url=_require(values, 'REDIS_URL'),
@@ -188,20 +163,8 @@ def load_backend_settings(
         llm_mode=llm_mode,
         llm_base_url=values.get('LLM_BASE_URL', '').strip() or None,
         qwen_chat_model=values.get('QWEN_CHAT_MODEL', 'qwen-plus').strip() or 'qwen-plus',
-        qwen_vl_model=values.get('QWEN_VL_MODEL', 'qwen-vl-max-latest').strip() or 'qwen-vl-max-latest',
         embedding_model=values.get('DASHSCOPE_EMBEDDING_MODEL', 'text-embedding-v1').strip() or 'text-embedding-v1',
         reranker_model=values.get('RERANKER_MODEL', 'gte-rerank-v2').strip() or 'gte-rerank-v2',
-        search_provider=values.get('SEARCH_PROVIDER', 'brave').strip().lower() or 'brave',
-        search_api_key=values.get('SEARCH_API_KEY', '').strip() or None,
-        search_base_url=values.get('SEARCH_BASE_URL', '').strip() or None,
-        search_timeout_seconds=_get_float(values, 'SEARCH_TIMEOUT_SECONDS', 8.0),
-        multimodal_enabled=_get_bool(values, 'MULTIMODAL_ENABLED', True),
-        max_visual_assets_per_document=_get_int(values, 'MAX_VISUAL_ASSETS_PER_DOCUMENT', 8),
-        visual_caption_timeout_seconds=_get_float(values, 'VISUAL_CAPTION_TIMEOUT_SECONDS', 12.0),
-        neo4j_uri=values.get('NEO4J_URI', '').strip() or None,
-        neo4j_username=values.get('NEO4J_USERNAME', '').strip() or None,
-        neo4j_password=values.get('NEO4J_PASSWORD', '').strip() or None,
-        graph_query_limit=_get_int(values, 'GRAPH_QUERY_LIMIT', 5),
         file_storage_path=file_storage_path,
         max_upload_size_mb=_get_int(values, 'MAX_UPLOAD_SIZE_MB', 50),
         chunk_size=chunk_size,

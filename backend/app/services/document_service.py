@@ -3,16 +3,14 @@ from __future__ import annotations
 import logging
 from pathlib import Path
 
-from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from backend.app.exceptions import AppError
-from backend.app.models import Chunk, Document, Task
+from backend.app.models import Document, Task
 from backend.app.repositories.document_repository import DocumentRepository
 from backend.app.repositories.task_repository import TaskRepository
 from backend.app.settings import BackendSettings
 from backend.app.tasks.document_tasks import enqueue_document_ingestion
-from backend.infrastructure.graph import create_graph_store
 from backend.infrastructure.observability import log_event
 from backend.infrastructure.queue import (
     DEFAULT_QUEUE_NAME,
@@ -100,17 +98,11 @@ def create_document_upload(
     return document, task
 
 
-def get_document_detail(db_session: Session, document_id: str) -> tuple[Document, int]:
+def get_document_detail(db_session: Session, document_id: str) -> Document:
     document = DocumentRepository(db_session).get_by_id(document_id)
     if document is None:
         raise AppError("文档不存在", code="document_not_found", status_code=404)
-    statement = (
-        select(func.count(Chunk.id))
-        .where(Chunk.document_id == document_id)
-        .where(Chunk.source_type != "text")
-    )
-    visual_asset_count = int(db_session.scalar(statement) or 0)
-    return document, visual_asset_count
+    return document
 
 
 def get_task_detail(db_session: Session, task_id: str) -> Task:
@@ -120,35 +112,18 @@ def get_task_detail(db_session: Session, task_id: str) -> Task:
     return task
 
 
-def delete_document(db_session: Session, document_id: str, *, settings: BackendSettings | None = None) -> None:
+def delete_document(db_session: Session, document_id: str) -> None:
     document = DocumentRepository(db_session).get_by_id(document_id)
     if document is None:
         raise AppError("文档不存在", code="document_not_found", status_code=404)
 
     storage_path = document.storage_path
-    if settings is not None:
-        try:
-            create_graph_store(settings).delete_document_graph(document_id=document_id)
-        except Exception as exc:
-            log_event(
-                logger,
-                logging.WARNING,
-                "document.graph_cleanup_failed",
-                document_id=document_id,
-                error=str(exc),
-            )
     db_session.delete(document)
     db_session.commit()
 
     file_path = Path(storage_path)
     if file_path.exists():
         file_path.unlink()
-    asset_dir = file_path.parent / f"{file_path.stem}_assets"
-    if asset_dir.exists():
-        for child in asset_dir.iterdir():
-            if child.is_file():
-                child.unlink()
-        asset_dir.rmdir()
 
     log_event(
         logger,

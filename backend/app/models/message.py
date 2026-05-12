@@ -18,5 +18,6 @@ class Message(TimestampMixin, Base):
     content: Mapped[str] = mapped_column(Text, nullable=False)
     citations: Mapped[list[dict[str, object]] | None] = mapped_column(JSON, nullable=True)
     tool_calls: Mapped[list[dict[str, object]] | None] = mapped_column(JSON, nullable=True)
+    diagnosis_context: Mapped[dict[str, object] | None] = mapped_column(JSON, nullable=True)
 
     session = relationship("Session", back_populates="messages")

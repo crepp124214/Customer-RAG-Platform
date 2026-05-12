@@ -1,0 +1,293 @@
+{
+  "files": [
+    {
+      "path": "backend/tests/.gitkeep",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/tests/support.py",
+      "language": "python",
+      "sizeLines": 47,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_acceptance_mode.py",
+      "language": "python",
+      "sizeLines": 64,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_app.py",
+      "language": "python",
+      "sizeLines": 183,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_chat_api.py",
+      "language": "python",
+      "sizeLines": 470,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_chat_client.py",
+      "language": "python",
+      "sizeLines": 95,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_chat_service.py",
+      "language": "python",
+      "sizeLines": 488,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_chunking_service.py",
+      "language": "python",
+      "sizeLines": 58,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_config.py",
+      "language": "python",
+      "sizeLines": 82,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_database.py",
+      "language": "python",
+      "sizeLines": 124,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_document_ingestion.py",
+      "language": "python",
+      "sizeLines": 111,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_documents_api.py",
+      "language": "python",
+      "sizeLines": 306,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_embedding_client.py",
+      "language": "python",
+      "sizeLines": 55,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_file_storage.py",
+      "language": "python",
+      "sizeLines": 50,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_llm_factory.py",
+      "language": "python",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_observability.py",
+      "language": "python",
+      "sizeLines": 142,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_parser_service.py",
+      "language": "python",
+      "sizeLines": 115,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_queue.py",
+      "language": "python",
+      "sizeLines": 108,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_reranker_client.py",
+      "language": "python",
+      "sizeLines": 65,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_retrieval_service.py",
+      "language": "python",
+      "sizeLines": 203,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_system_service.py",
+      "language": "python",
+      "sizeLines": 70,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_tool_orchestrator.py",
+      "language": "python",
+      "sizeLines": 80,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_tool_registry.py",
+      "language": "python",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_vector.py",
+      "language": "python",
+      "sizeLines": 85,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_vector_postgresql.py",
+      "language": "python",
+      "sizeLines": 26,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/tests/test_worker_bootstrap.py",
+      "language": "python",
+      "sizeLines": 206,
+      "fileCategory": "code"
+    }
+  ],
+  "importData": {
+    "backend/tests/.gitkeep": [],
+    "backend/tests/support.py": [
+      "backend/app/settings/config.py",
+      "backend/infrastructure/database/initializer.py",
+      "backend/main.py"
+    ],
+    "backend/tests/test_acceptance_mode.py": [
+      "backend/app/models/__init__.py",
+      "backend/app/orchestrators/document_ingestion.py",
+      "backend/app/services/chunking_service.py",
+      "backend/app/services/parser_service.py",
+      "backend/infrastructure/database/__init__.py",
+      "backend/infrastructure/llm/__init__.py",
+      "backend/tests/support.py"
+    ],
+    "backend/tests/test_app.py": [
+      "backend/app/exceptions.py",
+      "backend/app/services/system_service.py",
+      "backend/tests/support.py"
+    ],
+    "backend/tests/test_chat_api.py": [
+      "backend/api/routes/__init__.py",
+      "backend/app/services/retrieval_service.py",
+      "backend/tests/support.py"
+    ],
+    "backend/tests/test_chat_client.py": [
+      "backend/app/exceptions.py",
+      "backend/infrastructure/llm/chat_client.py"
+    ],
+    "backend/tests/test_chat_service.py": [
+      "backend/app/exceptions.py",
+      "backend/app/models/__init__.py",
+      "backend/app/services/chat_service.py",
+      "backend/app/services/retrieval_service.py",
+      "backend/infrastructure/database/__init__.py",
+      "backend/tests/support.py"
+    ],
+    "backend/tests/test_chunking_service.py": [
+      "backend/app/services/chunking_service.py"
+    ],
+    "backend/tests/test_config.py": [
+      "backend/app/settings/config.py"
+    ],
+    "backend/tests/test_database.py": [
+      "backend/app/models/__init__.py",
+      "backend/infrastructure/database/connection.py",
+      "backend/infrastructure/database/initializer.py",
+      "backend/infrastructure/database/session.py"
+    ],
+    "backend/tests/test_document_ingestion.py": [
+      "backend/app/models/__init__.py",
+      "backend/app/orchestrators/document_ingestion.py",
+      "backend/app/services/chunking_service.py",
+      "backend/app/services/parser_service.py",
+      "backend/infrastructure/database/__init__.py",
+      "backend/tests/support.py"
+    ],
+    "backend/tests/test_documents_api.py": [
+      "backend/app/models/__init__.py",
+      "backend/app/tasks/document_tasks.py",
+      "backend/infrastructure/storage/file_storage.py",
+      "backend/tests/support.py"
+    ],
+    "backend/tests/test_embedding_client.py": [
+      "backend/app/exceptions.py",
+      "backend/infrastructure/llm/embedding_client.py"
+    ],
+    "backend/tests/test_file_storage.py": [
+      "backend/app/exceptions.py",
+      "backend/infrastructure/storage/file_storage.py",
+      "backend/tests/support.py"
+    ],
+    "backend/tests/test_llm_factory.py": [
+      "backend/app/settings/config.py",
+      "backend/infrastructure/llm/__init__.py"
+    ],
+    "backend/tests/test_observability.py": [
+      "backend/app/models/__init__.py",
+      "backend/app/services/chat_service.py",
+      "backend/app/services/system_service.py",
+      "backend/infrastructure/observability/__init__.py",
+      "backend/tests/support.py"
+    ],
+    "backend/tests/test_parser_service.py": [
+      "backend/app/exceptions.py",
+      "backend/app/services/parser_service.py",
+      "backend/tests/support.py"
+    ],
+    "backend/tests/test_queue.py": [
+      "backend/app/tasks/system_tasks.py",
+      "backend/infrastructure/queue/connection.py",
+      "backend/infrastructure/queue/queue.py"
+    ],
+    "backend/tests/test_reranker_client.py": [
+      "backend/app/exceptions.py",
+      "backend/infrastructure/llm/reranker_client.py"
+    ],
+    "backend/tests/test_retrieval_service.py": [
+      "backend/app/models/__init__.py",
+      "backend/app/services/retrieval_service.py",
+      "backend/infrastructure/database/__init__.py",
+      "backend/infrastructure/vector/store.py",
+      "backend/tests/support.py"
+    ],
+    "backend/tests/test_system_service.py": [
+      "backend/app/services/system_service.py"
+    ],
+    "backend/tests/test_tool_orchestrator.py": [
+      "backend/app/services/retrieval_service.py",
+      "backend/app/tools/base.py",
+      "backend/app/tools/orchestrator.py",
+      "backend/app/tools/registry.py"
+    ],
+    "backend/tests/test_tool_registry.py": [
+      "backend/app/exceptions.py",
+      "backend/app/tools/base.py",
+      "backend/app/tools/registry.py"
+    ],
+    "backend/tests/test_vector.py": [
+      "backend/app/models/__init__.py",
+      "backend/infrastructure/database/connection.py",
+      "backend/infrastructure/database/initializer.py",
+      "backend/infrastructure/database/session.py",
+      "backend/infrastructure/vector/store.py"
+    ],
+    "backend/tests/test_vector_postgresql.py": [
+      "backend/infrastructure/vector/store.py"
+    ],
+    "backend/tests/test_worker_bootstrap.py": [
+      "backend/infrastructure/queue/queue.py"
+    ]
+  }
+}

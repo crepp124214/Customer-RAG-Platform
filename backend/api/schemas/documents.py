@@ -14,11 +14,6 @@ class DocumentDetailData(BaseModel):
     file_type: str
     status: str
     storage_path: str
-    has_visual_assets: bool
-    visual_asset_count: int
-    has_graph: bool
-    graph_status: str
-    graph_relation_count: int
     created_at: str
     updated_at: str
 
@@ -31,3 +26,14 @@ class TaskDetailData(BaseModel):
     error_message: str | None
     created_at: str
     updated_at: str
+
+
+class BatchDeleteDocumentsRequest(BaseModel):
+    document_ids: list[str]
+
+
+class DocumentPreviewChunk(BaseModel):
+    chunk_index: int
+    content: str
+    source_type: str | None
+    page_number: int | None
