@@ -241,18 +241,6 @@ python run.py acceptance
 - **智能话术推荐**：基于检索结果生成专业客服话术
 - **客服专用工具**：product_spec_lookup、ticket_search、fault_diagnosis、sop_lookup
 
-## 演进历程
-
-本项目经历了多个阶段的演进：
-
-- **第一阶段**：搭建 FastAPI + Vue 3 + PostgreSQL + pgvector + RQ + Redis 基础架构
-- **第二阶段**：实现 Tool Calling 机制（web_search、document_lookup）
-- **第三阶段**：实现多模态 RAG（PDF 视觉元素提取、Qwen-VL 描述生成）
-- **第四阶段**：实现 GraphRAG（Neo4j 知识图谱、图检索与向量检索双路召回）
-- **第五阶段**：产品化最小闭环（健康检查、就绪检查、配置校验、部署验收）
-- **第六阶段**：前端界面优化与用户体验提升
-- **第七阶段**：文档与会话管理增强（标签系统、搜索、导出、置顶）
-- **第八阶段**：客服场景重构（产品管理、工单知识库、故障诊断、话术推荐）
 
 ## 许可证
 
